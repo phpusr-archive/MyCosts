@@ -4,9 +4,87 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+            >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20px"
+                android:gravity="center"
+                android:textColor="@color/date"
+                android:text="@string/date"
+            />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20px"
+                android:gravity="center"
+                android:textColor="@color/date"
+                android:layout_marginLeft="5px"
+                android:text="08.03.2011"
+                />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+        >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textSize="18px"
+                android:textStyle="bold"
+                android:text="@string/monthAll"
+            />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="5px"
+                android:textSize="18px"
+                android:text="3500"
+                />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+            >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textSize="18px"
+                android:textStyle="bold"
+                android:text="@string/monthDrive"
+                />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="5px"
+                android:textSize="18px"
+                android:text="1000"
+                />
+    </LinearLayout>
+    
+    <Button
+            android:id="@+id/addCoast"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:text="@string/add"
+        />
+    
+
+    <ListView
+            android:id="@+id/coastList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
 </LinearLayout>

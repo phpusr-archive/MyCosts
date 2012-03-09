@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+        >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+            >
+        <TextView
+            android:id="@+id/coastDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18px"
+            android:text="@string/date"
+            />
+        <TextView
+                android:id="@+id/coastDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18px"
+                android:layout_marginLeft="10px"
+                android:text="09.03.2012"
+                />
+    </LinearLayout>
+    <Space
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+        />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+            >
+        <TextView
+                android:id="@+id/coastDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18px"
+                android:text="@string/drink"
+                />
+        <Spinner
+                android:id="@+id/spinnerDrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:drawSelectorOnTop = "true"
+                android:prompt = "@string/prompt"
+            />
+    </LinearLayout>
+
+</LinearLayout>
