@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
+import org.dyndns.phpusr.domains.Data;
 import org.dyndns.phpusr.store.Store;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class AddCoast extends Activity {
     
     private double priceDrink = 0, priceGarnish = 0, priceMeat = 0, coastsSum = 0;
 
+    private DBHelper mDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,8 @@ public class AddCoast extends Activity {
         spinnerDrink = (Spinner) findViewById(R.id.spinnerDrink);
         spinnerGarnish = (Spinner) findViewById(R.id.spinnerGarnish);
         spinnerMeat = (Spinner) findViewById(R.id.spinnerMeat);
+
+        mDbHelper = new DBHelper(getApplicationContext());
 
         coastDateLabel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +113,8 @@ public class AddCoast extends Activity {
         ((Button)findViewById(R.id.addCoastOk)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDbHelper.insertData(new Data(coastsSum));
+                final List list = mDbHelper.selectAll();
                 //TODO сохранение покупки в базу
                 onBackPressed();
             }
@@ -114,8 +122,8 @@ public class AddCoast extends Activity {
     }
 
     private void generateSum() {
-        Double sum = priceDrink + priceGarnish + priceMeat;
-        expectedPrice.setText(Double.toString(sum));
+        coastsSum = priceDrink + priceGarnish + priceMeat;
+        expectedPrice.setText(Double.toString(coastsSum));
     }
 
     private void fillList() {
@@ -147,6 +155,12 @@ public class AddCoast extends Activity {
         fillList();
         coastDate.setText(Store.getDateString());
 
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mDbHelper.close();
     }
 
     public class MyCustomAdapter extends ArrayAdapter<Coast>{
