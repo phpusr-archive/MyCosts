@@ -1,7 +1,6 @@
 package org.dyndns.phpusr;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +16,7 @@ import org.dyndns.phpusr.store.Store;
  */
 public class DateDialog extends Activity {
     private Button ok;
+    private Button cancel;
     private DatePicker date;
     
     @Override
@@ -26,12 +26,20 @@ public class DateDialog extends Activity {
         
         date = (DatePicker) findViewById(R.id.datePicker);
         ok = (Button) findViewById(R.id.ok);
+        cancel = (Button) findViewById(R.id.cancel);
+
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Store.setDate(date);
-                Intent intent = new Intent(getBaseContext(), AddCoast.class);
-                startActivity(intent);
+                onBackPressed();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }
