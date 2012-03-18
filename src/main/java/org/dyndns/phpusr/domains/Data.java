@@ -28,9 +28,9 @@ public class Data {
         this.date = date;
     }
 
-    public Data(int id, double sum) {
-        this.id = id;
+    public Data(double sum, Date date) {
         this.sum = sum;
+        this.date = date;
     }
 
     public int getId() {

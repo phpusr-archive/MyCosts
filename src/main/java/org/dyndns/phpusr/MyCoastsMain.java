@@ -1,17 +1,34 @@
 package org.dyndns.phpusr;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import org.dyndns.phpusr.dao.DBHelper;
+import org.dyndns.phpusr.domains.Data;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class MyCoastsMain extends Activity {
 
     private static String TAG = "MyCosts";
 
     private Button addCoast;
+    private ListView listView;
+    private TextView sumMonth;
+
+    private DBHelper mDbHelper;
+    
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
     /**
      * Called when the activity is first created.
@@ -26,6 +43,10 @@ public class MyCoastsMain extends Activity {
         setContentView(R.layout.main);
 
         addCoast = (Button) findViewById(R.id.addCoast);
+        listView = (ListView) findViewById(R.id.coastList);
+        sumMonth = (TextView) findViewById(R.id.sumMonth);
+
+        mDbHelper = new DBHelper(getApplicationContext());
 
         addCoast.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +66,42 @@ public class MyCoastsMain extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        fillList();
+        sumMonth.setText(Double.toString(mDbHelper.getCoastSumLastMonth()));
+    }
+    
+    private void fillList() {
+        List<Data> dataList = mDbHelper.getCoastList();
+        
+        ArrayAdapter<Data> adapter = new MyCustomAdapter( this, R.layout.list, dataList);
+        listView.setAdapter(adapter);
 
+    }
+
+    public class MyCustomAdapter extends ArrayAdapter<Data> {
+
+        public MyCustomAdapter(Context context, int textViewResourceId, List<Data> items) {
+            super(context, textViewResourceId, items);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater=getLayoutInflater();
+            View row=inflater.inflate(R.layout.list, parent, false);
+            TextView label=(TextView)row.findViewById(R.id.list);
+            label.setText(sdf.format(getItem(position).getDate())+" - "+Double.toString(getItem(position).getSum()));
+
+            return row;
+        }
     }
 
 }

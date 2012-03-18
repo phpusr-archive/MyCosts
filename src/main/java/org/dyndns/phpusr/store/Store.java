@@ -15,19 +15,25 @@ import java.util.Date;
 
 /** Хранилище данных для формы добавления покупок */
 public class Store {
-    private static DatePicker date;
+    private static Date date;
 
-    private static final SimpleDateFormat formatter = new SimpleDateFormat( "dd.MM.yyyy" );
+    private static final SimpleDateFormat sdf = new SimpleDateFormat( "dd.MM.yyyy" );
 
     public static void setDate(DatePicker dateIn) {
-        date = dateIn;
+        date = new Date(date.getYear(), date.getMonth(), date.getDay());
     }
     
-    public Date getDate() {
-        return new Date(date.getYear(), date.getMonth(), date.getDayOfMonth());
+    public static Date getDate() {
+        if (date == null) {
+            date = new Date();
+        }
+        return date;
     }
     
     public static String getDateString() {
-        return date != null ? date.getDayOfMonth()+"."+(date.getMonth()+1)+"."+date.getYear() : formatter.format(new Date());
+        if (date == null) {
+            date = new Date();
+        }
+        return sdf.format(date);
     }
 }

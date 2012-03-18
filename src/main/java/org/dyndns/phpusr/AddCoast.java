@@ -29,6 +29,7 @@ public class AddCoast extends Activity {
     private TextView coastDateLabel;
     private TextView coastDate;
     private TextView expectedPrice;
+    private TextView price;
     
     private Spinner spinnerDrink;
     private Spinner spinnerGarnish;
@@ -46,6 +47,7 @@ public class AddCoast extends Activity {
         coastDateLabel = (TextView) findViewById(R.id.coastDateLabel);
         coastDate = (TextView) findViewById(R.id.coastDate);
         expectedPrice = (TextView) findViewById(R.id.expectedPrice);
+        price = (TextView) findViewById(R.id.price);
 
         spinnerDrink = (Spinner) findViewById(R.id.spinnerDrink);
         spinnerGarnish = (Spinner) findViewById(R.id.spinnerGarnish);
@@ -113,12 +115,18 @@ public class AddCoast extends Activity {
         ((Button)findViewById(R.id.addCoastOk)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDbHelper.insertData(new Data(coastsSum));
-                final List list = mDbHelper.selectAll();
+                mDbHelper.insetIntoCoastList(new Data(getCoastSum(), Store.getDate()));
                 //TODO сохранение покупки в базу
                 onBackPressed();
             }
         });
+    }
+
+    private double getCoastSum() {
+        if (price.getText() != null && price.getText().equals("")) {
+            price.setText("0");
+        }
+        return Double.valueOf(price.getText().toString());
     }
 
     private void generateSum() {
@@ -155,12 +163,6 @@ public class AddCoast extends Activity {
         fillList();
         coastDate.setText(Store.getDateString());
 
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mDbHelper.close();
     }
 
     public class MyCustomAdapter extends ArrayAdapter<Coast>{

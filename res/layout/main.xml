@@ -41,6 +41,7 @@
                 android:text="@string/monthAll"
             />
         <TextView
+                android:id="@+id/sumMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
