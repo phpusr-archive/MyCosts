@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    final static int DB_VER = 3;
+    final static int DB_VER = 4;
     final static String DB_NAME = "coast.db";
     final String TABLE_NAME_COAST_LIST = "coastList";
     final String TABLE_NAME_COAST_ITEMS = "coastItems";

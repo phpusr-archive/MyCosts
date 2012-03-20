@@ -1,6 +1,7 @@
 package org.dyndns.phpusr;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class MyCoastsMain extends Activity {
     private static String TAG = "MyCosts";
 
     private Button addCoast;
+    private Button addForPassage;
     private ListView listView;
     private TextView sumMonth;
 
@@ -43,6 +45,7 @@ public class MyCoastsMain extends Activity {
         setContentView(R.layout.main);
 
         addCoast = (Button) findViewById(R.id.addCoast);
+        addForPassage = (Button) findViewById(R.id.addForPassage);
         listView = (ListView) findViewById(R.id.coastList);
         sumMonth = (TextView) findViewById(R.id.sumMonth);
 
@@ -104,5 +107,16 @@ public class MyCoastsMain extends Activity {
         }
     }
 
+    /**
+     * Обработчик кнопки "Добавить за проезд"
+     * @param view
+     */
+    public void addForPassageOnClick(View view) {
+        //TODO сделать нормальный обработчик
+        List<Data> dataList = mDbHelper.getCoastList();
+        ArrayAdapter<Data> adapter = new MyCustomAdapter( this, R.layout.list, dataList);
+        new AlertDialog.Builder(this).setTitle("Title").setAdapter(adapter, null).show();
+        addForPassage.setText("Молодес нажал!");
+    }
 }
 

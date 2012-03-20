@@ -81,7 +81,16 @@
             android:layout_marginTop="20px"
             android:text="@string/add"
         />
-    
+
+    <Button
+            android:id="@+id/addForPassage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:text="@string/addForPassage"
+            android:onClick="addForPassageOnClick"
+            />
+
 
     <ListView
             android:id="@+id/coastList"
