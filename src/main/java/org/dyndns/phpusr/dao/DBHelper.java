@@ -27,26 +27,26 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    final static int DB_VER = 18;
-    final static String DB_NAME = "coast.db";
-    public static final String LIMIT = "5";
-    final String TABLE_NAME_COAST_LIST = "coastList";
-    final String TABLE_NAME_COAST_ITEMS = "coastItems";
-    final String CREATE_TABLE_COAST_LIST = "CREATE TABLE "+ TABLE_NAME_COAST_LIST +"( " +
+    private final static int DB_VER = 18;
+    private final static String DB_NAME = "coast.db";
+    private static final String LIMIT = "5";
+    private final String TABLE_NAME_COAST_LIST = "coastList";
+    private final String TABLE_NAME_COAST_ITEMS = "coastItems";
+    private final String CREATE_TABLE_COAST_LIST = "CREATE TABLE "+ TABLE_NAME_COAST_LIST +"( " +
             "id INTEGER PRIMARY KEY"+
             ", coastSum DOUBLE " +
             ", coastDate DATE " +
             ")";
-    final String CREATE_TABLE_COAST_ITEMS = "CREATE TABLE "+ TABLE_NAME_COAST_ITEMS +"( " +
+    private final String CREATE_TABLE_COAST_ITEMS = "CREATE TABLE "+ TABLE_NAME_COAST_ITEMS +"( " +
             "id INTEGER PRIMARY KEY"+
             ", coastName VARCHAR(50) " +
             ", coastPrice DOUBLE " +
             ")";
-    final String DROP_TABLE_COAST_LIST = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_LIST;
-    final String DROP_TABLE_COAST_ITEMS = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_ITEMS;
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final String DROP_TABLE_COAST_LIST = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_LIST;
+    private final String DROP_TABLE_COAST_ITEMS = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_ITEMS;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    Context mContext;
+    private final Context mContext;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VER);
@@ -76,7 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
         InputStreamReader sr = new InputStreamReader(stream);
         BufferedReader reader = new BufferedReader(sr);
 
-        String data = "";
+        String data;
         try {
             while( (data=reader.readLine()) != null ) {                
                 list.add(stringToCoastItem(data));
