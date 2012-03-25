@@ -11,9 +11,9 @@ import android.widget.*;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
 import org.dyndns.phpusr.domains.Data;
+import org.dyndns.phpusr.enums.TypeCoast;
 import org.dyndns.phpusr.store.Store;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -134,22 +134,22 @@ public class AddCoast extends Activity {
     }
 
     private void fillList() {
-        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, android.R.layout.simple_spinner_item, mDbHelper.getCoastItems());
+        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, android.R.layout.simple_spinner_item, mDbHelper.getCoastItemsByTypeId(TypeCoast.DRINK.getId()));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDrink.setAdapter(adapter);
 
-        List<Coast> coastList = new ArrayList<Coast>();
+        /*List<Coast> coastList = new ArrayList<Coast>();
         coastList.add(new Coast(23, "Картофельное пюре", 8));
         coastList.add(new Coast(48, "Плов", 40));
-        coastList.add(new Coast(53, "Гречка", 13));
-        adapter = new MyCustomAdapter( this, R.layout.list, coastList);
+        coastList.add(new Coast(53, "Гречка", 13));*/
+        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.GARNISH.getId()));
         spinnerGarnish.setAdapter(adapter);
 
-        coastList = new ArrayList<Coast>();
+        /*coastList = new ArrayList<Coast>();
         coastList.add(new Coast(23, "Гуляш", 40));
         coastList.add(new Coast(48, "Катлета", 20));
-        coastList.add(new Coast(53, "Печень", 18));
-        adapter = new MyCustomAdapter( this, R.layout.list, coastList);
+        coastList.add(new Coast(53, "Печень", 18));*/
+        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.MEAT.getId()));
         spinnerMeat.setAdapter(adapter);
     }
 

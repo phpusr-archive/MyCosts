@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    private final static int DB_VER = 18;
+    private final static int DB_VER = 19;
     private final static String DB_NAME = "coast.db";
     private static final String LIMIT = "5";
     private final String TABLE_NAME_COAST_LIST = "coastList";
@@ -41,6 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "id INTEGER PRIMARY KEY"+
             ", coastName VARCHAR(50) " +
             ", coastPrice DOUBLE " +
+            ", coastType INTEGER " +
             ")";
     private final String DROP_TABLE_COAST_LIST = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_LIST;
     private final String DROP_TABLE_COAST_ITEMS = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_ITEMS;
@@ -94,6 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Coast coast = new Coast();
         coast.setName(split[0]);
         coast.setPrice(Double.valueOf(split[1]));
+        coast.setTypeCoast(Integer.valueOf(split[2]));
         return coast;
     } 
 
@@ -149,11 +151,28 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Coast> getCoastItems() {
         List<Coast> list = new ArrayList<Coast>();
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.query(TABLE_NAME_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice" },
-                null, null, null, null, "id", LIMIT);
+        Cursor cursor = db.query(TABLE_NAME_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
+                null, null, null, null, "id", null);
         if (cursor.moveToFirst()) {
             do {
-                final Coast data = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2));
+                final Coast data = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getInt(3));                
+                list.add(data);
+            } while (cursor.moveToNext());
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return list;
+    }
+
+    public List<Coast> getCoastItemsByTypeId(int coastType) {
+        List<Coast> list = new ArrayList<Coast>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
+                "coastType = ?", new String[]{ Integer.toString(coastType) }, null, null, "id", null);
+        if (cursor.moveToFirst()) {
+            do {
+                final Coast data = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getInt(3));
                 list.add(data);
             } while (cursor.moveToNext());
         }
