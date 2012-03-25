@@ -74,11 +74,10 @@ public class MyCoastsMain extends Activity {
     }
     
     private void fillList() {
-        List<Data> dataList = mDbHelper.getCoastList();
+        List<Data> dataList = mDbHelper.getCoastListLast();
         
         ArrayAdapter<Data> adapter = new MyCustomAdapter( this, R.layout.list, dataList);
         listView.setAdapter(adapter);
-
     }
 
     public class MyCustomAdapter extends ArrayAdapter<Data> {
@@ -113,7 +112,7 @@ public class MyCoastsMain extends Activity {
      */
     public void addForPassageOnClick(View view) {
         //TODO сделать нормальный обработчик
-        List<Data> dataList = mDbHelper.getCoastList();
+        List<Data> dataList = mDbHelper.getCoastListLast();
         ArrayAdapter<Data> adapter = new MyCustomAdapter( this, R.layout.list, dataList);
         new AlertDialog.Builder(this).setTitle("Title").setAdapter(adapter, null).show();
         addForPassage.setText("Молодес нажал!");

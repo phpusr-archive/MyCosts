@@ -116,7 +116,6 @@ public class AddCoast extends Activity {
             @Override
             public void onClick(View v) {
                 mDbHelper.insetIntoCoastList(new Data(getCoastSum(), Store.getDate()));
-                //TODO сохранение покупки в базу
                 onBackPressed();
             }
         });
@@ -135,14 +134,11 @@ public class AddCoast extends Activity {
     }
 
     private void fillList() {
-        List<Coast> coastList = new ArrayList<Coast>();
-        coastList.add(new Coast(23, "Компот", 12));
-        coastList.add(new Coast(48, "Сок", 14));
-        coastList.add(new Coast(53, "Чай", 5));
-        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, R.layout.list, coastList);
+        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, android.R.layout.simple_spinner_item, mDbHelper.getCoastItems());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDrink.setAdapter(adapter);
 
-        coastList = new ArrayList<Coast>();
+        List<Coast> coastList = new ArrayList<Coast>();
         coastList.add(new Coast(23, "Картофельное пюре", 8));
         coastList.add(new Coast(48, "Плов", 40));
         coastList.add(new Coast(53, "Гречка", 13));

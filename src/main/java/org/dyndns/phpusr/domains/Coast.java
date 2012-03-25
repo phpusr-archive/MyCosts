@@ -12,6 +12,9 @@ public class Coast {
     private String name;
     private double price;
 
+    public Coast() {
+    }
+
     public Coast(int id, String name) {
         this.id = id;
         this.name = name;
