@@ -138,17 +138,9 @@ public class AddCoast extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDrink.setAdapter(adapter);
 
-        /*List<Coast> coastList = new ArrayList<Coast>();
-        coastList.add(new Coast(23, "Картофельное пюре", 8));
-        coastList.add(new Coast(48, "Плов", 40));
-        coastList.add(new Coast(53, "Гречка", 13));*/
         adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.GARNISH.getId()));
         spinnerGarnish.setAdapter(adapter);
 
-        /*coastList = new ArrayList<Coast>();
-        coastList.add(new Coast(23, "Гуляш", 40));
-        coastList.add(new Coast(48, "Катлета", 20));
-        coastList.add(new Coast(53, "Печень", 18));*/
         adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.MEAT.getId()));
         spinnerMeat.setAdapter(adapter);
     }

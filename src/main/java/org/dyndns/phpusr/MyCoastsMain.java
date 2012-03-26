@@ -1,14 +1,11 @@
 package org.dyndns.phpusr;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Data;
@@ -114,6 +111,22 @@ public class MyCoastsMain extends Activity {
         //new AlertDialog.Builder(this).setTitle("Title").setAdapter(adapter, null).show();
         Toast.makeText(this, "Зачем вы нажали?", Toast.LENGTH_SHORT).show();
         addForPassage.setText("Молодес нажал!");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    /**Обработчик выбора пункта меню "Выход"*/
+    public void onClickExit(MenuItem menuItem) {
+        onBackPressed();
+    }
+
+    /**Обработчик выбора пункта меню "Добавления продукта"*/
+    public void onClickAddProduct(MenuItem menuItem) {
+        Toast.makeText(getApplicationContext(), "Добавление нового продукта", Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -15,4 +15,9 @@
     <string name="price">Цена:</string>
     <string name="expectedPrice">Ожид. цена:</string>
     <string name="addForPassage">Добавить за проезд</string>
+
+    <!--Menu-->
+    <string name="addProduct">Добавить продукт</string>
+    <string name="exit">Выход</string>
+    <!---->
 </resources>
