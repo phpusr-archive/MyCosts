@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    private final static int DB_VER = 19;
+    private final static int DB_VER = 22;
     private final static String DB_NAME = "coast.db";
     private static final String LIMIT = "5";
     private final String TABLE_NAME_COAST_LIST = "coastList";
@@ -110,6 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 values = new ContentValues();
                 values.put("coastName", dat.getName());
                 values.put("coastPrice", dat.getPrice());
+                values.put("coastType", dat.getTypeCoast());
                 db.insert(TABLE_NAME_COAST_ITEMS, null, values);
             }
         }
