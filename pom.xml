@@ -14,7 +14,7 @@
             <artifactId>android</artifactId>
             <version>
              2.2.1
-                        </version>
+            </version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -31,9 +31,9 @@
                     <resourceDirectory>${project.basedir}/res</resourceDirectory>
                     <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
                     <sdk>
-                        <platform>15</platform>
+                        <platform>10</platform>
                     </sdk>
-                                        <deleteConflictingFiles>true</deleteConflictingFiles>
+                    <deleteConflictingFiles>true</deleteConflictingFiles>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
                 </configuration>
                 <extensions>true</extensions>

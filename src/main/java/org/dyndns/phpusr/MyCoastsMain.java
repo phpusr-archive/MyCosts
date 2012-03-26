@@ -9,10 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Data;
 
@@ -115,7 +112,8 @@ public class MyCoastsMain extends Activity {
         //TODO сделать нормальный обработчик
         List<Data> dataList = mDbHelper.getCoastList();
         ArrayAdapter<Data> adapter = new MyCustomAdapter( this, R.layout.list, dataList);
-        new AlertDialog.Builder(this).setTitle("Title").setAdapter(adapter, null).show();
+        //new AlertDialog.Builder(this).setTitle("Title").setAdapter(adapter, null).show();
+        Toast.makeText(this, "Зачем вы нажали?", Toast.LENGTH_SHORT).show();
         addForPassage.setText("Молодес нажал!");
     }
 }
