@@ -2,15 +2,19 @@ package org.dyndns.phpusr.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import org.dyndns.phpusr.R;
+import org.dyndns.phpusr.domains.Coast;
 import org.dyndns.phpusr.domains.Data;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,20 +27,27 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    final static int DB_VER = 4;
-    final static String DB_NAME = "coast.db";
-    final String TABLE_NAME_COAST_LIST = "coastList";
-    final String TABLE_NAME_COAST_ITEMS = "coastItems";
-    final String CREATE_TABLE = "CREATE TABLE "+ TABLE_NAME_COAST_LIST +"( " +
+    private final static int DB_VER = 19;
+    private final static String DB_NAME = "coast.db";
+    private static final String LIMIT = "5";
+    private final String TABLE_NAME_COAST_LIST = "coastList";
+    private final String TABLE_NAME_COAST_ITEMS = "coastItems";
+    private final String CREATE_TABLE_COAST_LIST = "CREATE TABLE "+ TABLE_NAME_COAST_LIST +"( " +
             "id INTEGER PRIMARY KEY"+
             ", coastSum DOUBLE " +
             ", coastDate DATE " +
             ")";
-    final String DROP_TABLE = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_LIST;
-    final String DATA_FILE_NAME = "data.txt";
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final String CREATE_TABLE_COAST_ITEMS = "CREATE TABLE "+ TABLE_NAME_COAST_ITEMS +"( " +
+            "id INTEGER PRIMARY KEY"+
+            ", coastName VARCHAR(50) " +
+            ", coastPrice DOUBLE " +
+            ", coastType INTEGER " +
+            ")";
+    private final String DROP_TABLE_COAST_LIST = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_LIST;
+    private final String DROP_TABLE_COAST_ITEMS = "DROP TABLE IF EXISTS "+ TABLE_NAME_COAST_ITEMS;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    Context mContext;
+    private final Context mContext;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VER);
@@ -47,31 +58,29 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(Constants.DEBUG_TAG,"onCreate() called");
-        db.execSQL(CREATE_TABLE);
-        //fillData(db);
+        db.execSQL(CREATE_TABLE_COAST_LIST);
+        db.execSQL(CREATE_TABLE_COAST_ITEMS);
+        fillData(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DROP_TABLE);
+        db.execSQL(DROP_TABLE_COAST_LIST);
+        db.execSQL(DROP_TABLE_COAST_ITEMS);
         onCreate(db);
     }
 
-    private ArrayList<String> getData() {
-        InputStream stream = null;
-        ArrayList<String> list = new ArrayList<String>();
-        try {
-            stream = mContext.getAssets().open(DATA_FILE_NAME);
-        }
-        catch (IOException e) {
-            Log.d(Constants.DEBUG_TAG,e.getMessage());
-        }
+    private ArrayList<Coast> getData() {
+        ArrayList<Coast> list = new ArrayList<Coast>();
+        final Resources r = mContext.getResources();
+        final InputStream stream = r.openRawResource(R.raw.import_data);
+        InputStreamReader sr = new InputStreamReader(stream);
+        BufferedReader reader = new BufferedReader(sr);
 
-        DataInputStream dataStream = new DataInputStream(stream);
-        String data = "";
+        String data;
         try {
-            while( (data=dataStream.readLine()) != null ) {
-                list.add(data);
+            while( (data=reader.readLine()) != null ) {                
+                list.add(stringToCoastItem(data));
             }
         }
         catch (IOException e) {
@@ -80,18 +89,28 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return list;
     }
+    
+    private Coast stringToCoastItem(String inputString) {
+        final String[] split = inputString.split("\t");
+        Coast coast = new Coast();
+        coast.setName(split[0]);
+        coast.setPrice(Double.valueOf(split[1]));
+        coast.setTypeCoast(Integer.valueOf(split[2]));
+        return coast;
+    } 
 
     private void fillData(SQLiteDatabase db){
-        ArrayList<String> data = getData();
-        for(String dt:data) Log.d(Constants.DEBUG_TAG,"item="+dt);
+        ArrayList<Coast> data = getData();
+        for(Coast coast : data) Log.d(Constants.DEBUG_TAG,"item="+coast);
 
         if( db != null ){
             ContentValues values;
 
-            for(String dat:data){
+            for(Coast dat : data){
                 values = new ContentValues();
-                values.put("todo", dat);
-                db.insert(TABLE_NAME_COAST_LIST, null, values);
+                values.put("coastName", dat.getName());
+                values.put("coastPrice", dat.getPrice());
+                db.insert(TABLE_NAME_COAST_ITEMS, null, values);
             }
         }
         else {
@@ -107,11 +126,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME_COAST_LIST, null, values);
     }
 
-    public List<Data> getCoastList() {
+    public List<Data> getCoastListLast() {
         List<Data> list = new ArrayList<Data>();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME_COAST_LIST, new String[] { "id", "coastSum", "coastDate" },
-        null, null, null, null, "id DESC", "5");
+        null, null, null, null, "id DESC", LIMIT);
         if (cursor.moveToFirst()) {
             do {
                 final Data data;
@@ -128,7 +147,41 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return list;
     }
-    
+
+    public List<Coast> getCoastItems() {
+        List<Coast> list = new ArrayList<Coast>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
+                null, null, null, null, "id", null);
+        if (cursor.moveToFirst()) {
+            do {
+                final Coast data = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getInt(3));                
+                list.add(data);
+            } while (cursor.moveToNext());
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return list;
+    }
+
+    public List<Coast> getCoastItemsByTypeId(int coastType) {
+        List<Coast> list = new ArrayList<Coast>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
+                "coastType = ?", new String[]{ Integer.toString(coastType) }, null, null, "id", null);
+        if (cursor.moveToFirst()) {
+            do {
+                final Coast data = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getInt(3));
+                list.add(data);
+            } while (cursor.moveToNext());
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return list;
+    }
+
     public double getCoastSumLastMonth() {
         SQLiteDatabase db = getWritableDatabase();
         final Cursor cursor = db.query(TABLE_NAME_COAST_LIST, new String[]{"SUM(coastSum)"}, "strftime('%Y-%m', coastDate) = strftime('%Y-%m', 'now')", null, null, null, null);

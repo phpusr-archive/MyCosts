@@ -11,16 +11,16 @@ public class Coast {
     private int id;
     private String name;
     private double price;
+    private int typeCoast;
 
-    public Coast(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Coast() {
     }
 
-    public Coast(int id, String name, double price) {
+    public Coast(int id, String name, double price, int typeCoast) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.typeCoast = typeCoast;
     }
 
     public int getId() {
@@ -47,12 +47,21 @@ public class Coast {
         this.price = price;
     }
 
+    public int getTypeCoast() {
+        return typeCoast;
+    }
+
+    public void setTypeCoast(int typeCoast) {
+        this.typeCoast = typeCoast;
+    }
+
     @Override
     public String toString() {
         return "Coast{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", typeCoast=" + typeCoast +
                 '}';
     }
 }
