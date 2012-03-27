@@ -19,5 +19,6 @@
     <!--Menu-->
     <string name="addProduct">Добавить продукт</string>
     <string name="exit">Выход</string>
+    <string name="productName">Имя продукта</string>
     <!---->
 </resources>
