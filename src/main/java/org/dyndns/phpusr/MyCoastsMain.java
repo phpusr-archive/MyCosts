@@ -126,7 +126,7 @@ public class MyCoastsMain extends Activity {
 
     /**Обработчик выбора пункта меню "Добавления продукта"*/
     public void onClickAddProduct(MenuItem menuItem) {
-        Toast.makeText(getApplicationContext(), "Добавление нового продукта", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), AddProduct.class));
     }
 }
 

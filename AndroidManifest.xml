@@ -14,6 +14,7 @@
     </activity>
     <activity android:name=".AddCoast"/>
     <activity android:name=".DateDialog"/>
+    <activity android:name=".AddProduct"/>
   </application>
 
 </manifest>
