@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
 import org.dyndns.phpusr.domains.Data;
@@ -105,17 +108,17 @@ public class AddCoast extends Activity {
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
-        ((Button)findViewById(R.id.addCoastCancel)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.addCoastCancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();                
+                onBackPressed();
             }
         });
 
-        ((Button)findViewById(R.id.addCoastOk)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.addCoastOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDbHelper.insetIntoCoastList(new Data(getCoastSum(), Store.getDate()));
+                mDbHelper.insertIntoCoastList(new Data(getCoastSum(), Store.getDate()));
                 onBackPressed();
             }
         });
@@ -134,8 +137,7 @@ public class AddCoast extends Activity {
     }
 
     private void fillList() {
-        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, android.R.layout.simple_spinner_item, mDbHelper.getCoastItemsByTypeId(TypeCoast.DRINK.getId()));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.DRINK.getId()));
         spinnerDrink.setAdapter(adapter);
 
         adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.GARNISH.getId()));

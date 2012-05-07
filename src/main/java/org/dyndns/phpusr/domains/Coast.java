@@ -11,16 +11,16 @@ public class Coast {
     private int id;
     private String name;
     private double price;
-    private int typeCoast;
+    private int coastType;
 
     public Coast() {
     }
 
-    public Coast(int id, String name, double price, int typeCoast) {
+    public Coast(int id, String name, double price, int coastType) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.typeCoast = typeCoast;
+        this.coastType = coastType;
     }
 
     public int getId() {
@@ -47,12 +47,12 @@ public class Coast {
         this.price = price;
     }
 
-    public int getTypeCoast() {
-        return typeCoast;
+    public int getCoastType() {
+        return coastType;
     }
 
-    public void setTypeCoast(int typeCoast) {
-        this.typeCoast = typeCoast;
+    public void setCoastType(int coastType) {
+        this.coastType = coastType;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Coast {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", typeCoast=" + typeCoast +
+                ", coastType=" + coastType +
                 '}';
     }
 }

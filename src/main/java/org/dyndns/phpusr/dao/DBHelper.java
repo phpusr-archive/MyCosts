@@ -30,7 +30,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private final static int DB_VER = 22;
     private final static String DB_NAME = "coast.db";
     private static final String LIMIT = "5";
+    /** Список покупок */
     private final String TABLE_NAME_COAST_LIST = "coastList";
+    /** Наименования продуктов */
     private final String TABLE_NAME_COAST_ITEMS = "coastItems";
     private final String CREATE_TABLE_COAST_LIST = "CREATE TABLE "+ TABLE_NAME_COAST_LIST +"( " +
             "id INTEGER PRIMARY KEY"+
@@ -38,7 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ", coastDate DATE " +
             ")";
     private final String CREATE_TABLE_COAST_ITEMS = "CREATE TABLE "+ TABLE_NAME_COAST_ITEMS +"( " +
-            "id INTEGER PRIMARY KEY"+
+            "id INTEGER PRIMARY KEY" +
             ", coastName VARCHAR(50) " +
             ", coastPrice DOUBLE " +
             ", coastType INTEGER " +
@@ -95,7 +97,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Coast coast = new Coast();
         coast.setName(split[0]);
         coast.setPrice(Double.valueOf(split[1]));
-        coast.setTypeCoast(Integer.valueOf(split[2]));
+        coast.setCoastType(Integer.valueOf(split[2]));
         return coast;
     } 
 
@@ -110,7 +112,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 values = new ContentValues();
                 values.put("coastName", dat.getName());
                 values.put("coastPrice", dat.getPrice());
-                values.put("coastType", dat.getTypeCoast());
+                values.put("coastType", dat.getCoastType());
                 db.insert(TABLE_NAME_COAST_ITEMS, null, values);
             }
         }
@@ -119,12 +121,25 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void insetIntoCoastList(Data data) {
+    public void insertIntoCoastList(Data data) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("coastSum", data.getSum());
         values.put("coastDate", sdf.format(data.getDate()));
         db.insert(TABLE_NAME_COAST_LIST, null, values);
+    }
+
+    /**
+     * Добавление элментов покупки
+     * @param coast элемент покупки
+     */
+    public void insertIntoCoastItems(Coast coast) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("coastName", coast.getName());
+        values.put("coastPrice", coast.getPrice());
+        values.put("coastType", coast.getCoastType());
+        db.insert(TABLE_NAME_COAST_ITEMS, null, values);
     }
 
     public List<Data> getCoastListLast() {

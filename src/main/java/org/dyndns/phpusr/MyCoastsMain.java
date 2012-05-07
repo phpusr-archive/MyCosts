@@ -48,11 +48,7 @@ public class MyCoastsMain extends Activity {
         addCoast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MyCoastsMain c = MyCoastsMain.this;
-//                Intent intent = new Intent( c, AddCoast.class );
-//                //intent.putExtra( COMPLEX_ID, id );
-//                c.startActivity( intent );
-
+                //TODO поменять на callMe
                 Intent intent = new Intent(getBaseContext(), AddCoast.class);
                 startActivity(intent);
             }
@@ -126,7 +122,7 @@ public class MyCoastsMain extends Activity {
 
     /**Обработчик выбора пункта меню "Добавления продукта"*/
     public void onClickAddProduct(MenuItem menuItem) {
-        startActivity(new Intent(getApplicationContext(), AddProduct.class));
+        AddProduct.callMe(MyCoastsMain.this);
     }
 }
 

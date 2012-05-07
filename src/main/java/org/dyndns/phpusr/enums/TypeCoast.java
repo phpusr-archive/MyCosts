@@ -6,6 +6,9 @@ package org.dyndns.phpusr.enums;
  *         Time: 22:21
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Типы покупок
  */
@@ -39,6 +42,19 @@ public enum TypeCoast {
 
     public void setDesctiption(String desctiption) {
         this.desctiption = desctiption;
+    }
+
+    /**
+     * Список всех типов покупок
+     * @return список
+     */
+    public static List<TypeCoast> getList() {
+        List<TypeCoast> list = new ArrayList<TypeCoast>();
+        list.add(DRINK);
+        list.add(GARNISH);
+        list.add(MEAT);
+
+        return list;
     }
 
     @Override
