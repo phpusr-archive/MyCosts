@@ -1,92 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
+              style="@style/linerLayoutVertDef"
+        >
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="horizontal"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:textColor="@color/date"
+                style="@style/lblTitle"
                 android:text="@string/date"
-            />
+                />
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:textColor="@color/date"
-                android:layout_marginLeft="5px"
+                style="@style/dscrTitle"
                 android:text="08.03.2011"
                 />
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-        >
+                  style="@style/linerLayoutHorDef"
+            >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                style="@style/lbl"
                 android:text="@string/monthAll"
-            />
+                />
         <TextView
                 android:id="@+id/sumMonth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="5px"
-                android:textSize="18dp"
+                style="@style/dscr"
                 android:text="3500"
                 />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="horizontal"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                style="@style/lbl"
                 android:text="@string/monthDrive"
                 />
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="5px"
-                android:textSize="18dp"
+                style="@style/dscr"
                 android:text="1000"
                 />
     </LinearLayout>
-    
+
     <Button
             android:id="@+id/addCoast"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20px"
+            style="@style/oneBtn"
             android:text="@string/add"
-        />
+            />
 
     <Button
             android:id="@+id/addForPassage"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20px"
+            style="@style/oneBtn"
             android:text="@string/addForPassage"
             android:onClick="addForPassageOnClick"
             />
@@ -94,7 +57,6 @@
 
     <ListView
             android:id="@+id/coastList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        />
+            style="@style/listViewDef"
+            />
 </LinearLayout>

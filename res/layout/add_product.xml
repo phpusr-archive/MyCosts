@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
+              style="@style/linerLayoutVertDef"
         >
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/lbl"
             android:text="@string/productName"
         />
     <EditText
             android:id="@+id/productName"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            style="@style/edtDec"
             android:text="Example"
         />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  style="@style/linerLayoutHorDef"
+            >
+        <TextView
+                style="@style/lbl"
+                android:text="@string/typeProduct"
+                />
+        <Spinner
+                android:id="@+id/spinnerProductType"
+                style="@style/spinnerDef"
+                />
+    </LinearLayout>
+
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/twoBtn"
             android:text="@string/add"
+            android:onClick="onClickAddCoastItem"
             />
 </LinearLayout>

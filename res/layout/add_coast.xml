@@ -1,155 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
+              style="@style/linerLayoutVertDef"
         >
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-            android:id="@+id/coastDateLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="@string/date"
-            />
+                android:id="@+id/coastDateLabel"
+                style="@style/lbl"
+                android:text="@string/date"
+                />
         <TextView
                 android:id="@+id/coastDate"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginLeft="10px"
+                style="@style/dscr"
                 android:text="09.03.2012"
                 />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
+                style="@style/lbl"
                 android:text="@string/drink"
                 />
         <Spinner
                 android:id="@+id/spinnerDrink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10px"
-                android:drawSelectorOnTop = "true"
-                android:prompt = "@string/prompt"
-            />
+                style="@style/spinnerDef"
+                android:prompt="@string/prompt"
+                />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
+                style="@style/lbl"
                 android:text="@string/garnish"
                 />
         <Spinner
                 android:id="@+id/spinnerGarnish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10px"
-                android:drawSelectorOnTop = "true"
-                android:prompt = "@string/prompt"
+                style="@style/spinnerDef"
+                android:prompt="@string/prompt"
                 />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
+                style="@style/lbl"
                 android:text="@string/meat"
                 />
         <Spinner
                 android:id="@+id/spinnerMeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10px"
-                android:drawSelectorOnTop = "true"
-                android:prompt = "@string/prompt"
+                style="@style/spinnerDef"
                 />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
+                style="@style/lbl"
                 android:text="@string/expectedPrice"
                 />
         <TextView
                 android:id="@+id/expectedPrice"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:layout_marginLeft="10px"
+                style="@style/dscr"
                 android:text="price"
                 />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
+                  style="@style/linerLayoutHorDef"
             >
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
+                style="@style/lbl"
                 android:text="@string/price"
-            />
+                />
         <EditText
                 android:id="@+id/price"
-                android:layout_width="100px"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10px"
-                android:inputType="numberDecimal"
-            />
+                android:text="15"
+                style="@style/edtDec"
+                />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:layout_gravity="right"
+                  style="@style/linerLayoutHorDef"
             >
         <Button
                 android:id="@+id/addCoastCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/cancel"
-                android:layout_gravity="right"
+                style="@style/twoBtn"
                 />
         <Button
                 android:id="@+id/addCoastOk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/ok"
-                android:layout_gravity="right"
+                style="@style/twoBtn"
                 />
     </LinearLayout>
 
