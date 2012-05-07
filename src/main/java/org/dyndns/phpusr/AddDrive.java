@@ -12,30 +12,34 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
+import org.dyndns.phpusr.domains.Drive;
 import org.dyndns.phpusr.enums.CoastType;
+import org.dyndns.phpusr.store.Store;
 
 import java.util.List;
 
 /**
- * @author Sergey Doronin
- *         Date: 27.03.12
- *         Time: 18:50
+ * @author phpusr
+ *         Date: 07.05.12
+ *         Time: 14:06
  */
-public class AddProduct extends Activity {
-    private Spinner spinnerProductType;
-    private TextView productName;
-    private TextView productPrice;
+
+/**
+ * Добавление поездки на автобусе
+ */
+public class AddDrive extends Activity {
+    private Spinner spinnerBus;
+    private TextView driveDate;
 
     private DBHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_product);
+        setContentView(R.layout.add_drive);
 
-        spinnerProductType = (Spinner) findViewById(R.id.spinnerProductType);
-        productName = (TextView) findViewById(R.id.productName);
-        productPrice = (TextView) findViewById(R.id.productPrice);
+        spinnerBus = (Spinner) findViewById(R.id.spinnerBus);
+        driveDate = (TextView) findViewById(R.id.driveDate);
 
         mDbHelper = new DBHelper(getApplicationContext());
 
@@ -44,17 +48,27 @@ public class AddProduct extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        fillProductType();
+        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(CoastType.BUS.getId()));
+        spinnerBus.setAdapter(adapter);
+        driveDate.setText(Store.getDateString());
     }
 
-    private void fillProductType() {
-        ArrayAdapter<CoastType> adapter = new MyCustomAdapter(this, R.layout.list, CoastType.getList());
-        spinnerProductType.setAdapter(adapter);
+    public void onClickAddDrive(View view) {
+        mDbHelper.insertIntoDriveList(new Drive(Store.getDate(), (Coast) spinnerBus.getSelectedItem()));
+        onBackPressed();
     }
 
-    public class MyCustomAdapter extends ArrayAdapter<CoastType> {
+    public void onClickCancelDrive(View view) {
+        onBackPressed();
+    }
 
-        public MyCustomAdapter(Context context, int textViewResourceId, List<CoastType> items) {
+    public void onClickDriveDate(View view) {
+        DateDialog.callMe(this);
+    }
+
+    class MyCustomAdapter extends ArrayAdapter<Coast> {
+
+        public MyCustomAdapter(Context context, int textViewResourceId, List<Coast> items) {
             super(context, textViewResourceId, items);
         }
 
@@ -70,30 +84,16 @@ public class AddProduct extends Activity {
 
         public View getCustomView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater=getLayoutInflater();
-            View row = inflater.inflate(R.layout.list, parent, false);
+            View row=inflater.inflate(R.layout.list, parent, false);
             TextView label=(TextView)row.findViewById(R.id.list);
-            label.setText(getItem(position).getDesctiption());
+            label.setText(getItem(position).getName());
 
             return row;
         }
     }
 
-    public void onClickAddCoastItem(View view) {
-        Coast coast = new Coast();
-        coast.setName(productName.getText().toString());
-        coast.setPrice(Double.valueOf(productPrice.getText().toString()));
-        coast.setCoastType((CoastType) spinnerProductType.getSelectedItem());
-        mDbHelper.insertIntoCoastItems(coast);
-
-        onBackPressed();
-    }
-
-    public void onClickCancelCoastItem(View view) {
-        onBackPressed();
-    }
-
     public static void callMe(Context context) {
-        Intent intent = new Intent( context, AddProduct.class );
+        Intent intent = new Intent( context, AddDrive.class );
         context.startActivity(intent);
     }
 }

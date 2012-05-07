@@ -36,27 +36,42 @@
                 android:text="@string/monthDrive"
                 />
         <TextView
+                android:id="@+id/driveSumMonth"
                 style="@style/dscr"
                 android:text="1000"
                 />
     </LinearLayout>
-
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  style="@style/linerLayoutHorDef"
+            >
     <Button
-            android:id="@+id/addCoast"
-            style="@style/oneBtn"
+            style="@style/twoBtn"
             android:text="@string/add"
+            android:onClick="onClickAddCoast"
             />
 
     <Button
             android:id="@+id/addForPassage"
-            style="@style/oneBtn"
+            style="@style/twoBtn"
             android:text="@string/addForPassage"
             android:onClick="addForPassageOnClick"
             />
-
-
+    </LinearLayout>
+    <TextView
+            style="@style/title"
+            android:text="@string/lastCoast"
+            />
     <ListView
             android:id="@+id/coastList"
+            style="@style/listViewDef"
+            />
+
+    <TextView
+            style="@style/title"
+            android:text="@string/lastDrive"
+            />
+    <ListView
+            android:id="@+id/driveList"
             style="@style/listViewDef"
             />
 </LinearLayout>

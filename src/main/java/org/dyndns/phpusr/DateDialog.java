@@ -1,6 +1,8 @@
 package org.dyndns.phpusr;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,5 +44,10 @@ public class DateDialog extends Activity {
                 onBackPressed();
             }
         });
+    }
+
+    public static void callMe(Context context) {
+        Intent intent = new Intent( context, DateDialog.class );
+        context.startActivity(intent);
     }
 }

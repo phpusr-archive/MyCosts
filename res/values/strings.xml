@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Главная-->
+    <string name="lastDrive">Последние проезды</string>
+    <string name="lastCoast">Последние обеды</string>
+    <string name="addForPassage">Проезд</string>
+    <string name="add">Обед</string>
+
     <string name="date">Дата:</string>
-    <string name="monthAll">Всего за месяц:</string>
-    <string name="monthDrive">На дорогу:</string>
+    <string name="monthAll">На обеды за месяц:</string>
+    <string name="monthDrive">На дорогу за месяц:</string>
     <string name="monthEat">На еду:</string>
     <string name="app_name">Мои расходы</string>
-    <string name="add">Добавить</string>
     <string name="ok">Ok</string>
     <string name="cancel">Отмена</string>
     <string name="drink">Напиток:</string>
@@ -14,12 +19,24 @@
     <string name="meat">Мясо:</string>
     <string name="price">Цена:</string>
     <string name="expectedPrice">Ожид. цена:</string>
-    <string name="addForPassage">Добавить за проезд</string>
+
+    <!--Добавление продукта-->
+    <string name="productPrice">Цена продукта:</string>
+    <!---->
+
+    <!--Добавление поездки-->
+    <string name="driveBus">Атобус:</string>
+    <!---->
 
     <!--Menu-->
     <string name="addProduct">Добавить продукт</string>
     <string name="exit">Выход</string>
-    <string name="productName">Имя продукта</string>
+    <string name="productName">Имя продукта:</string>
     <string name="typeProduct">Тип продукта:</string>
     <!---->
+
+    <!--Проичие константы-->
+    <string name="currencyPostfix">руб</string>
+    <!---->
+
 </resources>

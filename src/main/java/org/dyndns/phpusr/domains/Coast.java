@@ -6,17 +6,19 @@ package org.dyndns.phpusr.domains;
  *         Time: 18:00
  */
 
+import org.dyndns.phpusr.enums.CoastType;
+
 /** Покупка */
 public class Coast {
     private int id;
     private String name;
     private double price;
-    private int coastType;
+    private CoastType coastType;
 
     public Coast() {
     }
 
-    public Coast(int id, String name, double price, int coastType) {
+    public Coast(int id, String name, double price, CoastType coastType) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -47,11 +49,11 @@ public class Coast {
         this.price = price;
     }
 
-    public int getCoastType() {
+    public CoastType getCoastType() {
         return coastType;
     }
 
-    public void setCoastType(int coastType) {
+    public void setCoastType(CoastType coastType) {
         this.coastType = coastType;
     }
 

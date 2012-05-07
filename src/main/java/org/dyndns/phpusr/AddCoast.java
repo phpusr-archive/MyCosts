@@ -14,7 +14,7 @@ import android.widget.TextView;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
 import org.dyndns.phpusr.domains.Data;
-import org.dyndns.phpusr.enums.TypeCoast;
+import org.dyndns.phpusr.enums.CoastType;
 import org.dyndns.phpusr.store.Store;
 
 import java.util.List;
@@ -137,13 +137,13 @@ public class AddCoast extends Activity {
     }
 
     private void fillList() {
-        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.DRINK.getId()));
+        ArrayAdapter<Coast> adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(CoastType.DRINK.getId()));
         spinnerDrink.setAdapter(adapter);
 
-        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.GARNISH.getId()));
+        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(CoastType.GARNISH.getId()));
         spinnerGarnish.setAdapter(adapter);
 
-        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(TypeCoast.MEAT.getId()));
+        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(CoastType.MEAT.getId()));
         spinnerMeat.setAdapter(adapter);
     }
 
@@ -152,10 +152,9 @@ public class AddCoast extends Activity {
         super.onResume();
         fillList();
         coastDate.setText(Store.getDateString());
-
     }
 
-    public class MyCustomAdapter extends ArrayAdapter<Coast>{
+    class MyCustomAdapter extends ArrayAdapter<Coast>{
 
         public MyCustomAdapter(Context context, int textViewResourceId, List<Coast> items) {
             super(context, textViewResourceId, items);
@@ -181,4 +180,8 @@ public class AddCoast extends Activity {
         }
     }
 
+    public static void callMe(Context context) {
+        Intent intent = new Intent( context, AddCoast.class );
+        context.startActivity(intent);
+    }
 }

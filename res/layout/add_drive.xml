@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/linerLayoutVertDef"
+        >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  style="@style/linerLayoutHorDef"
+            >
+        <TextView
+                style="@style/lbl"
+                android:text="@string/date"
+                android:onClick="onClickDriveDate"
+                />
+        <TextView
+                android:id="@+id/driveDate"
+                style="@style/dscr"
+                android:text="09.03.2012"
+                android:onClick="onClickDriveDate"
+                />
+    </LinearLayout>
+
+    <TextView
+        style="@style/lbl"
+        android:text="@string/driveBus"
+        />
+    <Spinner
+        android:id="@+id/spinnerBus"
+        style="@style/spinnerDef"
+        />
+
+    <LinearLayout
+        style="@style/linerLayoutHorDef"
+        >
+        <Button
+                style="@style/twoBtn"
+                android:text="@string/cancel"
+                android:onClick="onClickCancelDrive"
+                />
+        <Button
+            style="@style/twoBtn"
+            android:text="@string/ok"
+            android:onClick="onClickAddDrive"
+            />
+    </LinearLayout>
+
+</LinearLayout>

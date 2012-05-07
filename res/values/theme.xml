@@ -19,9 +19,8 @@
     </style>
 
     <style name="spinnerDef">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:textColor">#00FF00</item>
-        <item name="android:typeface">monospace</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">10dp</item>
@@ -38,7 +37,6 @@
     <style name="twoBtn">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:text">@string/cancel</item>
         <item name="android:layout_gravity">right</item>
     </style>
 
@@ -47,17 +45,20 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="lbl">
+    <style name="textViewDef">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="lbl" parent="textViewDef">
         <item name="android:textSize">18dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="lblTitle" parent="lbl">
         <item name="android:textSize">20dp</item>
-        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/date</item>
     </style>
 
@@ -65,24 +66,27 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
-    <style name="dscr">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">left</item>
+    <style name="dscr" parent="textViewDef">
         <item name="android:layout_marginLeft">5px</item>
         <item name="android:textSize">18dp</item>
-        <item name="android:text">3500</item>
     </style>
 
     <style name="dscrTitle" parent="dscr">
         <item name="android:textSize">20dp</item>
-        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/date</item>
         <item name="android:layout_marginLeft">5px</item>
     </style>
 
+    <style name="title" parent="textViewDef">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/date</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="edtDef">
-        <item name="android:layout_width">100px</item>
+        <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">10px</item>
         <item name="android:gravity">center</item>
@@ -90,6 +94,11 @@
 
     <style name="edtDec" parent="edtDef">
         <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="edtTxt" parent="edtDef">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:inputType">text</item>
     </style>
 
     <style name="datePickerDef">

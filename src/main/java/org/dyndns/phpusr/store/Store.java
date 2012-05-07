@@ -3,6 +3,7 @@ package org.dyndns.phpusr.store;
 import android.widget.DatePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -20,7 +21,9 @@ public class Store {
     private static final SimpleDateFormat sdf = new SimpleDateFormat( "dd.MM.yyyy" );
 
     public static void setDate(DatePicker dateIn) {
-        date = new Date(date.getYear(), date.getMonth(), date.getDay());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(dateIn.getYear(), dateIn.getMonth(), dateIn.getDayOfMonth());
+        date = calendar.getTime();
     }
     
     public static Date getDate() {

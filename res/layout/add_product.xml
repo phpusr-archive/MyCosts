@@ -10,26 +10,41 @@
         />
     <EditText
             android:id="@+id/productName"
-            style="@style/edtDec"
-            android:text="Example"
+            style="@style/edtTxt"
+            android:text="Чай"
         />
+
+    <TextView
+            style="@style/lbl"
+            android:text="@string/productPrice"
+            />
+    <EditText
+            android:id="@+id/productPrice"
+            style="@style/edtDec"
+            android:text="0"
+            />
+
+    <TextView
+            style="@style/lbl"
+            android:text="@string/typeProduct"
+            />
+    <Spinner
+            android:id="@+id/spinnerProductType"
+            style="@style/spinnerDef"
+            />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   style="@style/linerLayoutHorDef"
             >
-        <TextView
-                style="@style/lbl"
-                android:text="@string/typeProduct"
+        <Button
+                style="@style/twoBtn"
+                android:text="@string/cancel"
+                android:onClick="onClickCancelCoastItem"
                 />
-        <Spinner
-                android:id="@+id/spinnerProductType"
-                style="@style/spinnerDef"
-                />
-    </LinearLayout>
-
-    <Button
+        <Button
             style="@style/twoBtn"
-            android:text="@string/add"
+            android:text="@string/ok"
             android:onClick="onClickAddCoastItem"
             />
+    </LinearLayout>
 </LinearLayout>

@@ -28,7 +28,6 @@
         <Spinner
                 android:id="@+id/spinnerDrink"
                 style="@style/spinnerDef"
-                android:prompt="@string/prompt"
                 />
     </LinearLayout>
 
@@ -42,7 +41,6 @@
         <Spinner
                 android:id="@+id/spinnerGarnish"
                 style="@style/spinnerDef"
-                android:prompt="@string/prompt"
                 />
     </LinearLayout>
 
@@ -69,7 +67,7 @@
         <TextView
                 android:id="@+id/expectedPrice"
                 style="@style/dscr"
-                android:text="price"
+                android:text="80.5"
                 />
     </LinearLayout>
 
