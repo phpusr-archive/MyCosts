@@ -23,6 +23,11 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="scrollLayoutDef">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">400dp</item>
+    </style>
+
     <!--Spinner-->
     <style name="spinnerDef">
         <item name="android:textSize">30sp</item>

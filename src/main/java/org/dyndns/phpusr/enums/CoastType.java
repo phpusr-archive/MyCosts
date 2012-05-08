@@ -17,7 +17,9 @@ public enum CoastType {
     DRINK(1, "Напиток"),
     GARNISH(2, "Гарнир"),
     MEAT(3, "Мясные изделия"),
-    BUS(4, "Автобусные поездки");
+    SALAD(4, "Салаты"),
+    FLOUR(5, "Мучные изделия"),
+    BUS(100, "Автобусные поездки");
 
     private int id;
 
@@ -54,6 +56,8 @@ public enum CoastType {
         list.add(DRINK);
         list.add(GARNISH);
         list.add(MEAT);
+        list.add(SALAD);
+        list.add(FLOUR);
         list.add(BUS);
 
         return list;

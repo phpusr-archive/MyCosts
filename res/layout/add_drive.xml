@@ -7,15 +7,14 @@
                   style="@style/linerLayoutHorDef"
             >
         <TextView
+                android:id="@+id/driveDateLbl"
                 style="@style/lbl"
                 android:text="@string/date"
-                android:onClick="onClickDriveDate"
                 />
         <TextView
                 android:id="@+id/driveDate"
                 style="@style/dscr"
                 android:text="09.03.2012"
-                android:onClick="onClickDriveDate"
                 />
     </LinearLayout>
 

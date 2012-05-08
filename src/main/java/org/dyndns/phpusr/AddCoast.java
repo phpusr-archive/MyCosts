@@ -37,8 +37,10 @@ public class AddCoast extends Activity {
     private Spinner spinnerDrink;
     private Spinner spinnerGarnish;
     private Spinner spinnerMeat;
-    
-    private double priceDrink = 0, priceGarnish = 0, priceMeat = 0, coastsSum = 0;
+    private Spinner spinnerSalad;
+    private Spinner spinnerFlour;
+
+    private double priceDrink = 0, priceGarnish = 0, priceMeat = 0, priceSalad = 0, priceFlour = 0, coastsSum = 0;
 
     private DBHelper mDbHelper;
 
@@ -55,6 +57,8 @@ public class AddCoast extends Activity {
         spinnerDrink = (Spinner) findViewById(R.id.spinnerDrink);
         spinnerGarnish = (Spinner) findViewById(R.id.spinnerGarnish);
         spinnerMeat = (Spinner) findViewById(R.id.spinnerMeat);
+        spinnerSalad = (Spinner) findViewById(R.id.spinnerSalad);
+        spinnerFlour = (Spinner) findViewById(R.id.spinnerFlour);
 
         mDbHelper = new DBHelper(getApplicationContext());
 
@@ -108,6 +112,34 @@ public class AddCoast extends Activity {
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
+        spinnerSalad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long row) {
+                Coast coast = (Coast) spinnerSalad.getAdapter().getItem(position);
+                if (coast != null) {
+                    priceSalad = coast.getPrice();
+                    generateSum();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+
+        spinnerFlour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long row) {
+                Coast coast = (Coast) spinnerFlour.getAdapter().getItem(position);
+                if (coast != null) {
+                    priceFlour = coast.getPrice();
+                    generateSum();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+
         findViewById(R.id.addCoastCancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +164,7 @@ public class AddCoast extends Activity {
     }
 
     private void generateSum() {
-        coastsSum = priceDrink + priceGarnish + priceMeat;
+        coastsSum = priceDrink + priceGarnish + priceMeat + priceSalad + priceFlour;
         expectedPrice.setText(Double.toString(coastsSum));
     }
 
@@ -145,6 +177,12 @@ public class AddCoast extends Activity {
 
         adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(CoastType.MEAT.getId()));
         spinnerMeat.setAdapter(adapter);
+
+        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(CoastType.SALAD.getId()));
+        spinnerSalad.setAdapter(adapter);
+
+        adapter = new MyCustomAdapter( this, R.layout.list, mDbHelper.getCoastItemsByTypeId(CoastType.FLOUR.getId()));
+        spinnerFlour.setAdapter(adapter);
     }
 
     @Override

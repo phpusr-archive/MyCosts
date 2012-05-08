@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    private final static int DB_VER = 25;
+    private final static int DB_VER = 26;
     private final static String DB_NAME = "coast.db";
 
     /** Для вытаскивания 5 последних покупок */
@@ -189,7 +189,7 @@ public class DBHelper extends SQLiteOpenHelper {
         List<Data> list = new ArrayList<Data>();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.query(TABLE_COAST_LIST, new String[] { "id", "coastSum", "coastDate" },
-        null, null, null, null, "id DESC", LIMIT);
+        null, null, null, null, "coastDate DESC", LIMIT);
         if (cursor.moveToFirst()) {
             do {
                 final Data data;
@@ -216,7 +216,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.query(TABLE_DRIVE_LIST + ", " + TABLE_COAST_ITEMS,
                 new String[] { TABLE_DRIVE_LIST + ".id", "driveDate", TABLE_COAST_ITEMS + ".id", "coastName", "coastPrice" },
-                "coastId = " + TABLE_COAST_ITEMS + ".id", null, null, null, TABLE_DRIVE_LIST + ".id DESC", LIMIT);
+                "coastId = " + TABLE_COAST_ITEMS + ".id", null, null, null, "driveDate DESC", LIMIT);
         if (cursor.moveToFirst()) {
             do {
                 final Drive drive;

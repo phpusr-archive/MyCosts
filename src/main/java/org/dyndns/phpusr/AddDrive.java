@@ -30,6 +30,7 @@ import java.util.List;
 public class AddDrive extends Activity {
     private Spinner spinnerBus;
     private TextView driveDate;
+    private TextView driveDateLbl;
 
     private DBHelper mDbHelper;
 
@@ -40,6 +41,14 @@ public class AddDrive extends Activity {
 
         spinnerBus = (Spinner) findViewById(R.id.spinnerBus);
         driveDate = (TextView) findViewById(R.id.driveDate);
+        driveDateLbl = (TextView) findViewById(R.id.driveDateLbl);
+
+        driveDateLbl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateDialog.callMe(AddDrive.this);
+            }
+        });
 
         mDbHelper = new DBHelper(getApplicationContext());
 
@@ -60,10 +69,6 @@ public class AddDrive extends Activity {
 
     public void onClickCancelDrive(View view) {
         onBackPressed();
-    }
-
-    public void onClickDriveDate(View view) {
-        DateDialog.callMe(this);
     }
 
     class MyCustomAdapter extends ArrayAdapter<Coast> {

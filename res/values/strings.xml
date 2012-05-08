@@ -22,6 +22,8 @@
 
     <!--Добавление продукта-->
     <string name="productPrice">Цена продукта:</string>
+    <string name="salad">Салаты</string>
+    <string name="flour">Мучные изделия</string>
     <!---->
 
     <!--Добавление поездки-->
