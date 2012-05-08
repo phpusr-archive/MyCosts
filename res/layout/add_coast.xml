@@ -18,44 +18,32 @@
                 />
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  style="@style/linerLayoutHorDef"
-            >
-        <TextView
-                style="@style/lbl"
-                android:text="@string/drink"
-                />
-        <Spinner
-                android:id="@+id/spinnerDrink"
-                style="@style/spinnerDef"
-                />
-    </LinearLayout>
+    <TextView
+            style="@style/lbl"
+            android:text="@string/drink"
+            />
+    <Spinner
+            android:id="@+id/spinnerDrink"
+            style="@style/spinnerDef"
+            />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  style="@style/linerLayoutHorDef"
-            >
-        <TextView
-                style="@style/lbl"
-                android:text="@string/garnish"
-                />
-        <Spinner
-                android:id="@+id/spinnerGarnish"
-                style="@style/spinnerDef"
-                />
-    </LinearLayout>
+    <TextView
+            style="@style/lbl"
+            android:text="@string/garnish"
+            />
+    <Spinner
+            android:id="@+id/spinnerGarnish"
+            style="@style/spinnerDef"
+            />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  style="@style/linerLayoutHorDef"
-            >
-        <TextView
-                style="@style/lbl"
-                android:text="@string/meat"
-                />
-        <Spinner
-                android:id="@+id/spinnerMeat"
-                style="@style/spinnerDef"
-                />
-    </LinearLayout>
+    <TextView
+            style="@style/lbl"
+            android:text="@string/meat"
+            />
+    <Spinner
+            android:id="@+id/spinnerMeat"
+            style="@style/spinnerDef"
+            />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   style="@style/linerLayoutHorDef"
@@ -71,19 +59,15 @@
                 />
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  style="@style/linerLayoutHorDef"
-            >
-        <TextView
-                style="@style/lbl"
-                android:text="@string/price"
-                />
-        <EditText
-                android:id="@+id/price"
-                android:text="15"
-                style="@style/edtDec"
-                />
-    </LinearLayout>
+    <TextView
+            style="@style/lbl"
+            android:text="@string/price"
+            />
+    <EditText
+            android:id="@+id/price"
+            android:text="15"
+            style="@style/edtDec"
+            />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   style="@style/layoutBtn"
