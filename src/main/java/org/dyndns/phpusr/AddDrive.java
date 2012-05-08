@@ -82,11 +82,12 @@ public class AddDrive extends Activity {
             return getCustomView(position, convertView, parent);
         }
 
-        public View getCustomView(int position, View convertView, ViewGroup parent) {
+        public View getCustomView(int pos, View convertView, ViewGroup parent) {
             LayoutInflater inflater=getLayoutInflater();
             View row=inflater.inflate(R.layout.list, parent, false);
             TextView label=(TextView)row.findViewById(R.id.list);
-            label.setText(getItem(position).getName());
+            label.setText(getItem(pos).getName() +
+                    " (" +  + getItem(pos).getPrice() + " " + getResources().getString(R.string.currencyPostfix) + ")");
 
             return row;
         }

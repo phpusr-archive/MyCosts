@@ -56,8 +56,10 @@ public class MyCoastsMain extends Activity {
     protected void onResume() {
         super.onResume();
         fillList();
-        coastSumMonth.setText(Double.toString(mDbHelper.getCoastSumLastMonth()));
-        driveSumMonth.setText(Double.toString(mDbHelper.getDriveSumLastMonth()));
+        coastSumMonth.setText(Double.toString(mDbHelper.getCoastSumLastMonth()) + " " +
+                getResources().getString(R.string.currencyPostfix));
+        driveSumMonth.setText(Double.toString(mDbHelper.getDriveSumLastMonth()) + " " +
+                getResources().getString(R.string.currencyPostfix));
     }
     
     private void fillList() {

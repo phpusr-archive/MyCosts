@@ -42,20 +42,19 @@
                 />
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  style="@style/linerLayoutHorDef"
+                  style="@style/layoutBtn"
             >
-    <Button
-            style="@style/twoBtn"
-            android:text="@string/add"
-            android:onClick="onClickAddCoast"
-            />
+        <Button
+                style="@style/twoBtn"
+                android:text="@string/add"
+                android:onClick="onClickAddCoast"
+                />
 
-    <Button
-            android:id="@+id/addForPassage"
-            style="@style/twoBtn"
-            android:text="@string/addForPassage"
-            android:onClick="addForPassageOnClick"
-            />
+        <Button
+                style="@style/twoBtn"
+                android:text="@string/addForPassage"
+                android:onClick="addForPassageOnClick"
+                />
     </LinearLayout>
     <TextView
             style="@style/title"

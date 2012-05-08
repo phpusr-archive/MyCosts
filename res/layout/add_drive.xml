@@ -29,7 +29,7 @@
         />
 
     <LinearLayout
-        style="@style/linerLayoutHorDef"
+        style="@style/layoutBtn"
         >
         <Button
                 style="@style/twoBtn"
