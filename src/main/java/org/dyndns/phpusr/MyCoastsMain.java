@@ -1,26 +1,30 @@
 package org.dyndns.phpusr;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ExpandableListView;
+import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import org.dyndns.phpusr.constants.Constants;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Data;
 import org.dyndns.phpusr.domains.Drive;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyCoastsMain extends Activity {
 
     private static String TAG = "MyCosts";
 
-    private ListView listView;
-    private ListView driveListVew;
+    private ExpandableListView lastActionsExpandableListView;
     private TextView coastSumMonth;
     private TextView driveSumMonth;
 
@@ -40,8 +44,7 @@ public class MyCoastsMain extends Activity {
 		Log.i(TAG, "onCreate");
         setContentView(R.layout.main);
 
-        listView = (ListView) findViewById(R.id.coastList);
-        driveListVew = (ListView) findViewById(R.id.driveList);
+        lastActionsExpandableListView = (ExpandableListView) findViewById(R.id.lastActionsList);
         coastSumMonth = (TextView) findViewById(R.id.sumMonth);
         driveSumMonth = (TextView) findViewById(R.id.driveSumMonth);
 
@@ -64,65 +67,65 @@ public class MyCoastsMain extends Activity {
     
     private void fillList() {
         List<Data> dataList = mDbHelper.getCoastListLast();
-        ArrayAdapter<Data> adapter = new DataAdapter( this, R.layout.list, dataList);
-        listView.setAdapter(adapter);
-
         List<Drive> driveList = mDbHelper.getDriveListLast();
-        ArrayAdapter<Drive> driveAdapter = new DriveAdapter( this, R.layout.list, driveList);
-        driveListVew.setAdapter(driveAdapter);
+
+        String groupFrom[] = new String[] {Constants.GROUP};
+        int groupTo[] = new int[] {android.R.id.text1};
+
+        String childForm[] = new String[] {Constants.ELEMENT};
+        int childTo[] = new int[] {android.R.id.text1};
+
+        SimpleExpandableListAdapter expandableAdapter = new SimpleExpandableListAdapter(
+                this,
+                getGroupData(),
+                android.R.layout.simple_expandable_list_item_1,
+                groupFrom,
+                groupTo,
+                getChildData(dataList, driveList),
+                android.R.layout.simple_list_item_1,
+                childForm,
+                childTo
+        );
+
+        lastActionsExpandableListView.setAdapter(expandableAdapter);
     }
 
-    class DataAdapter extends ArrayAdapter<Data> {
-
-        public DataAdapter(Context context, int textViewResourceId, List<Data> items) {
-            super(context, textViewResourceId, items);
+    /** Возвращает список с заголовками */
+    private ArrayList<Map<String, String>> getGroupData() {
+        final String[] groups = {getResources().getString(R.string.lastCoast), getResources().getString(R.string.lastDrive)};
+        final ArrayList<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
+        for (String group : groups) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put(Constants.GROUP, group);
+            groupData.add(map);
         }
 
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater=getLayoutInflater();
-            View row=inflater.inflate(R.layout.list, parent, false);
-            TextView label=(TextView)row.findViewById(R.id.list);
-            label.setText(sdf.format(getItem(position).getDate())+" - "+Double.toString(getItem(position).getSum()));
-
-            return row;
-        }
+        return groupData;
     }
 
-    class DriveAdapter extends ArrayAdapter<Drive> {
-
-        public DriveAdapter(Context context, int textViewResourceId, List<Drive> items) {
-            super(context, textViewResourceId, items);
+    /** Возвращает список с элементами для заголовков */
+    private ArrayList<ArrayList<Map<String, String>>> getChildData(List<Data> dataList, List<Drive> driveList) {
+        //Последние покупки
+        ArrayList<ArrayList<Map<String, String>>> childData = new ArrayList<ArrayList<Map<String, String>>>();
+        ArrayList<Map<String, String>> childDataItem = new ArrayList<Map<String, String>>();
+        for (Data data : dataList) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put(Constants.ELEMENT, sdf.format(data.getDate())+" - "+Double.toString(data.getSum()));
+            childDataItem.add(map);
         }
+        childData.add(childDataItem);
 
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
+        //Последние поездки
+        childDataItem = new ArrayList<Map<String, String>>();
+        for (Drive drive : driveList) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put(Constants.ELEMENT, sdf.format(drive.getDate()) + " - " + drive.getDriveWay().getName() +
+                    " (" + drive.getDriveWay().getPrice() + " " + getResources().getString(R.string.currencyPostfix) + ")");
+            childDataItem.add(map);
         }
+        childData.add(childDataItem);
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int pos, View convertView, ViewGroup parent) {
-            LayoutInflater inflater=getLayoutInflater();
-            View row=inflater.inflate(R.layout.list, parent, false);
-            TextView label=(TextView)row.findViewById(R.id.list);
-            label.setText(sdf.format(getItem(pos).getDate())+" - "+getItem(pos).getDriveWay().getName() +
-            " (" + getItem(pos).getDriveWay().getPrice() + " " + getResources().getString(R.string.currencyPostfix) + ")");
-
-            return row;
-        }
+        return childData;
     }
 
     /**
@@ -132,7 +135,6 @@ public class MyCoastsMain extends Activity {
     public void addForPassageOnClick(View view) {
         //TODO сделать нормальный обработчик
         List<Data> dataList = mDbHelper.getCoastListLast();
-        ArrayAdapter<Data> adapter = new DataAdapter( this, R.layout.list, dataList);
         //new AlertDialog.Builder(this).setTitle("Title").setAdapter(adapter, null).show();
         //Toast.makeText(this, "Зачем вы нажали?", Toast.LENGTH_SHORT).show();
 

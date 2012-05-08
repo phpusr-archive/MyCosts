@@ -11,4 +11,6 @@ package org.dyndns.phpusr.constants;
  */
 public class Constants {
 
+    public static final String GROUP = "groupName";
+    public static final String ELEMENT = "elementName";
 }

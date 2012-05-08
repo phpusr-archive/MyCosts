@@ -56,21 +56,9 @@
                 android:onClick="addForPassageOnClick"
                 />
     </LinearLayout>
-    <TextView
-            style="@style/title"
-            android:text="@string/lastCoast"
-            />
-    <ListView
-            android:id="@+id/coastList"
-            style="@style/listViewDef"
-            />
 
-    <TextView
-            style="@style/title"
-            android:text="@string/lastDrive"
-            />
-    <ListView
-            android:id="@+id/driveList"
+    <ExpandableListView
+            android:id="@+id/lastActionsList"
             style="@style/listViewDef"
             />
 </LinearLayout>
