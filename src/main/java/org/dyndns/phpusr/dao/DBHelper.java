@@ -10,8 +10,8 @@ import android.util.Log;
 import org.dyndns.phpusr.R;
 import org.dyndns.phpusr.constants.DBConstants;
 import org.dyndns.phpusr.domains.Coast;
-import org.dyndns.phpusr.domains.Data;
 import org.dyndns.phpusr.domains.Drive;
+import org.dyndns.phpusr.domains.Lunch;
 import org.dyndns.phpusr.enums.CoastType;
 
 import java.io.BufferedReader;
@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    private final static int DB_VER = 26;
+    private final static int DB_VER = 27;
     private final static String DB_NAME = "coast.db";
 
     /** Для вытаскивания 5 последних покупок */
@@ -45,6 +46,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private final String CREATE_TABLE_COAST_LIST = "CREATE TABLE "+ TABLE_COAST_LIST +"( " +
             "id INTEGER PRIMARY KEY"+
+            ", drinkId INTEGER " +
+            ", garnishId INTEGER " +
+            ", meatId INTEGER " +
+            ", saladId INTEGER " +
+            ", flourId INTEGER " +
             ", coastSum DOUBLE " +
             ", coastDate DATE " +
             ")";
@@ -94,7 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * Берет тестовые данные из файла для заполнения тестовыми данными БД
      * @return Список строк с данными
      */
-    private ArrayList<Coast> getData() {
+    private ArrayList<Coast> getCoastListFromFile() {
         ArrayList<Coast> list = new ArrayList<Coast>();
         final Resources r = mContext.getResources();
         final InputStream stream = r.openRawResource(R.raw.import_data);
@@ -125,17 +131,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /** Заполняем таблицу элементов покупок тестовыми данными */
     private void fillData(SQLiteDatabase db){
-        ArrayList<Coast> data = getData();
-        for(Coast coast : data) Log.d(DBConstants.DEBUG_TAG,"item="+coast);
+        ArrayList<Coast> coastList = getCoastListFromFile();
 
         if( db != null ){
             ContentValues values;
 
-            for(Coast dat : data){
+            for(Coast coast : coastList){
+                Log.d(DBConstants.DEBUG_TAG,"coast=" + coast);
                 values = new ContentValues();
-                values.put("coastName", dat.getName());
-                values.put("coastPrice", dat.getPrice());
-                values.put("coastType", dat.getCoastType().getId());
+                values.put("coastName", coast.getName());
+                values.put("coastPrice", coast.getPrice());
+                values.put("coastType", coast.getCoastType().getId());
                 db.insert(TABLE_COAST_ITEMS, null, values);
             }
         }
@@ -146,13 +152,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Добавление сделанной покупки
-     * @param data Покупка
+     * @param lunch Покупка
      */
-    public void insertIntoCoastList(Data data) {
+    public void insertIntoCoastList(Lunch lunch) {
+        Log.d(DBConstants.DEBUG_TAG,"insertIntoCoastList calling");
+        Log.d(DBConstants.DEBUG_TAG,"lunch=" + lunch);
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("coastSum", data.getSum());
-        values.put("coastDate", sdf.format(data.getDate()));
+        values.put("coastSum", lunch.getSum());
+        values.put("coastDate", sdf.format(lunch.getDate()));
+        values.put("drinkId", lunch.getDrink().getId());
+        values.put("garnishId", lunch.getGarnish().getId());
+        values.put("meatId", lunch.getMeat().getId());
+        values.put("saladId", lunch.getSalad().getId());
+        values.put("flourId", lunch.getFlour().getId());
         db.insert(TABLE_COAST_LIST, null, values);
     }
 
@@ -161,6 +175,9 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param drive Поездка
      */
     public void insertIntoDriveList(Drive drive) {
+        Log.d(DBConstants.DEBUG_TAG,"insertIntoDriveList calling");
+        Log.d(DBConstants.DEBUG_TAG,"drive=" + drive);
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("coastId", drive.getDriveWay().getId());
@@ -173,6 +190,9 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param coast элемент покупки
      */
     public void insertIntoCoastItems(Coast coast) {
+        Log.d(DBConstants.DEBUG_TAG,"insertIntoCoastItems calling");
+        Log.d(DBConstants.DEBUG_TAG,"coast=" + coast);
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("coastName", coast.getName());
@@ -181,21 +201,62 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_COAST_ITEMS, null, values);
     }
 
-    /**
-     * Возвращает LIMIT последних покупок
-     * @return список последних покупок
-     */
-    public List<Data> getCoastListLast() {
-        List<Data> list = new ArrayList<Data>();
+    private List<Lunch> getCoastList(String limit) {
+        List<Lunch> list = new ArrayList<Lunch>();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.query(TABLE_COAST_LIST, new String[] { "id", "coastSum", "coastDate" },
-        null, null, null, null, "coastDate DESC", LIMIT);
+                null, null, null, null, "coastDate DESC", limit);
         if (cursor.moveToFirst()) {
             do {
-                final Data data;
+                final Lunch lunch;
                 try {
-                    data = new Data(cursor.getInt(0), cursor.getDouble(1), sdf.parse(cursor.getString(2)));
-                    list.add(data);
+                    lunch = new Lunch(cursor.getInt(0), cursor.getDouble(1), sdf.parse(cursor.getString(2)));
+                    list.add(lunch);
+                    Log.d(DBConstants.DEBUG_TAG, "lunch=" + lunch);
+                } catch (ParseException e) {
+                    Log.d(DBConstants.DEBUG_TAG, e.getMessage());
+                }
+            } while (cursor.moveToNext());
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return list;
+    }
+
+    /**
+     * Возвращает список всех совершенных покупок за ...
+     * @return Список покупок за ...
+     */
+    //TODO дописать, обратить внимание на сортировку
+    public List<Lunch> getCoastListByDate(Date date) {
+        Log.d(DBConstants.DEBUG_TAG, "getCoastListByDate called");
+        return getCoastList(null);
+    }
+
+    /**
+     * Возвращает LIMIT последних покупок
+     * @return Список последних покупок
+     */
+    public List<Lunch> getCoastListLast() {
+        Log.d(DBConstants.DEBUG_TAG, "getCoastListLast called");
+        return getCoastList(LIMIT);
+    }
+
+    private List<Drive> getDriveList(String limit) {
+        List<Drive> list = new ArrayList<Drive>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TABLE_DRIVE_LIST + ", " + TABLE_COAST_ITEMS,
+                new String[] { TABLE_DRIVE_LIST + ".id", "driveDate", TABLE_COAST_ITEMS + ".id", "coastName", "coastPrice" },
+                "coastId = " + TABLE_COAST_ITEMS + ".id", null, null, null, "driveDate DESC", limit);
+        if (cursor.moveToFirst()) {
+            do {
+                final Drive drive;
+                try {
+                    Coast driveWay = new Coast(cursor.getInt(2), cursor.getString(3), cursor.getDouble(4), CoastType.BUS);
+                    drive = new Drive(cursor.getInt(0), sdf.parse(cursor.getString(1)), driveWay);
+                    list.add(drive);
+                    Log.d(DBConstants.DEBUG_TAG, "drive=" + drive);
                 } catch (ParseException e) {
                     Log.d(DBConstants.DEBUG_TAG, e.getMessage());
                 }
@@ -209,24 +270,33 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Возвращает LIMIT последних поездок
-     * @return список последних поездок
+     * @return Список последних поездок
      */
     public List<Drive> getDriveListLast() {
-        List<Drive> list = new ArrayList<Drive>();
+        Log.d(DBConstants.DEBUG_TAG, "getDriveListLast called");
+        return getDriveList(LIMIT);
+    }
+
+    /**
+     * Возвращает список последних поездок за ...
+     * @return Список последних поездок за ...
+     */
+    //TODO дописать, обратить внимание на сортировку
+    public List<Drive> getDriveListByDate(Date date) {
+        Log.d(DBConstants.DEBUG_TAG, "getDriveListByDate called");
+        return getDriveList(null);
+    }
+
+    private List<Coast> getCoastItems(int coastType) {
+        List<Coast> list = new ArrayList<Coast>();
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.query(TABLE_DRIVE_LIST + ", " + TABLE_COAST_ITEMS,
-                new String[] { TABLE_DRIVE_LIST + ".id", "driveDate", TABLE_COAST_ITEMS + ".id", "coastName", "coastPrice" },
-                "coastId = " + TABLE_COAST_ITEMS + ".id", null, null, null, "driveDate DESC", LIMIT);
+        Cursor cursor = db.query(TABLE_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
+                "coastType = ? OR ? = '-1'", new String[]{ Integer.toString(coastType), Integer.toString(coastType) }, null, null, "id", null);
         if (cursor.moveToFirst()) {
             do {
-                final Drive drive;
-                try {
-                    Coast driveWay = new Coast(cursor.getInt(2), cursor.getString(3), cursor.getDouble(4), CoastType.BUS);
-                    drive = new Drive(cursor.getInt(0), sdf.parse(cursor.getString(1)), driveWay);
-                    list.add(drive);
-                } catch (ParseException e) {
-                    Log.d(DBConstants.DEBUG_TAG, e.getMessage());
-                }
+                final Coast coast = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), CoastType.getCoastTypeById(cursor.getInt(3)));
+                list.add(coast);
+                Log.d(DBConstants.DEBUG_TAG, "coast=" + coast);
             } while (cursor.moveToNext());
         }
         if (!cursor.isClosed()) {
@@ -236,24 +306,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Возвращает список элементов покупок
-     * @return список элементов покупок
+     * Возвращает список всех элементов покупок
+     * @return Список всех элементов покупок
      */
-    public List<Coast> getCoastItems() {
-        List<Coast> list = new ArrayList<Coast>();
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.query(TABLE_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
-                null, null, null, null, "id", null);
-        if (cursor.moveToFirst()) {
-            do {
-                final Coast data = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), CoastType.getCoastTypeById(cursor.getInt(3)));
-                list.add(data);
-            } while (cursor.moveToNext());
-        }
-        if (!cursor.isClosed()) {
-            cursor.close();
-        }
-        return list;
+    public List<Coast> getCoastItemsAll() {
+        Log.d(DBConstants.DEBUG_TAG, "getCoastItemsAll called");
+
+        return getCoastItems(-1);
     }
 
     /**
@@ -262,20 +321,9 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return Список элементов покупки
      */
     public List<Coast> getCoastItemsByTypeId(int coastType) {
-        List<Coast> list = new ArrayList<Coast>();
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.query(TABLE_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
-                "coastType = ?", new String[]{ Integer.toString(coastType) }, null, null, "id", null);
-        if (cursor.moveToFirst()) {
-            do {
-                final Coast data = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), CoastType.getCoastTypeById(cursor.getInt(3)));
-                list.add(data);
-            } while (cursor.moveToNext());
-        }
-        if (!cursor.isClosed()) {
-            cursor.close();
-        }
-        return list;
+        Log.d(DBConstants.DEBUG_TAG, "getCoastItemsByTypeId called");
+
+        return getCoastItems(coastType);
     }
 
     /**

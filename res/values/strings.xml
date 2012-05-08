@@ -22,6 +22,8 @@
 
     <!--Добавление продукта-->
     <string name="productPrice">Цена продукта:</string>
+    <string name="productName">Имя продукта:</string>
+    <string name="typeProduct">Тип продукта:</string>
     <string name="salad">Салаты</string>
     <string name="flour">Мучные изделия</string>
     <!---->
@@ -32,9 +34,10 @@
 
     <!--Menu-->
     <string name="addProduct">Добавить продукт</string>
+    <string name="viewLunch">Просмотреть обеды</string>
+    <string name="viewDrive">Просмотреть поездки</string>
+    <string name="viewCoast">Просмотреть эл. покупок</string>
     <string name="exit">Выход</string>
-    <string name="productName">Имя продукта:</string>
-    <string name="typeProduct">Тип продукта:</string>
     <!---->
 
     <!--Проичие константы-->

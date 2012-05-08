@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
-import org.dyndns.phpusr.domains.Data;
+import org.dyndns.phpusr.domains.Lunch;
 import org.dyndns.phpusr.enums.CoastType;
 import org.dyndns.phpusr.store.Store;
 
@@ -150,7 +150,14 @@ public class AddCoast extends Activity {
         findViewById(R.id.addCoastOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDbHelper.insertIntoCoastList(new Data(getCoastSum(), Store.getDate()));
+                mDbHelper.insertIntoCoastList(
+                        new Lunch(getCoastSum(), Store.getDate()
+                            ,(Coast) spinnerDrink.getSelectedItem()
+                            ,(Coast) spinnerGarnish.getSelectedItem()
+                            ,(Coast) spinnerMeat.getSelectedItem()
+                            ,(Coast) spinnerSalad.getSelectedItem()
+                            ,(Coast) spinnerFlour.getSelectedItem()
+                        ));
                 onBackPressed();
             }
         });

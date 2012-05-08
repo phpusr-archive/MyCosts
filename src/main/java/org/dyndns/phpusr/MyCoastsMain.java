@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.dyndns.phpusr.constants.Constants;
 import org.dyndns.phpusr.dao.DBHelper;
-import org.dyndns.phpusr.domains.Data;
 import org.dyndns.phpusr.domains.Drive;
+import org.dyndns.phpusr.domains.Lunch;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class MyCoastsMain extends Activity {
     }
     
     private void fillList() {
-        List<Data> dataList = mDbHelper.getCoastListLast();
+        List<Lunch> lunchList = mDbHelper.getCoastListLast();
         List<Drive> driveList = mDbHelper.getDriveListLast();
 
         String groupFrom[] = new String[] {Constants.GROUP};
@@ -81,7 +82,7 @@ public class MyCoastsMain extends Activity {
                 android.R.layout.simple_expandable_list_item_1,
                 groupFrom,
                 groupTo,
-                getChildData(dataList, driveList),
+                getChildData(lunchList, driveList),
                 android.R.layout.simple_list_item_1,
                 childForm,
                 childTo
@@ -104,13 +105,13 @@ public class MyCoastsMain extends Activity {
     }
 
     /** Возвращает список с элементами для заголовков */
-    private ArrayList<ArrayList<Map<String, String>>> getChildData(List<Data> dataList, List<Drive> driveList) {
+    private ArrayList<ArrayList<Map<String, String>>> getChildData(List<Lunch> lunchList, List<Drive> driveList) {
         //Последние покупки
         ArrayList<ArrayList<Map<String, String>>> childData = new ArrayList<ArrayList<Map<String, String>>>();
         ArrayList<Map<String, String>> childDataItem = new ArrayList<Map<String, String>>();
-        for (Data data : dataList) {
+        for (Lunch lunch : lunchList) {
             Map<String, String> map = new HashMap<String, String>();
-            map.put(Constants.ELEMENT, sdf.format(data.getDate())+" - "+Double.toString(data.getSum()));
+            map.put(Constants.ELEMENT, sdf.format(lunch.getDate())+" - "+Double.toString(lunch.getSum()));
             childDataItem.add(map);
         }
         childData.add(childDataItem);
@@ -133,11 +134,6 @@ public class MyCoastsMain extends Activity {
      * @param view
      */
     public void addForPassageOnClick(View view) {
-        //TODO сделать нормальный обработчик
-        List<Data> dataList = mDbHelper.getCoastListLast();
-        //new AlertDialog.Builder(this).setTitle("Title").setAdapter(adapter, null).show();
-        //Toast.makeText(this, "Зачем вы нажали?", Toast.LENGTH_SHORT).show();
-
         AddDrive.callMe(this);
     }
 
@@ -156,5 +152,27 @@ public class MyCoastsMain extends Activity {
     public void onClickAddProduct(MenuItem menuItem) {
         AddProduct.callMe(MyCoastsMain.this);
     }
+
+    /**Обработчик выбора пункта меню "Просмотреть обеды"*/
+    public void onClickViewLunch(MenuItem menuItem) {
+        //TODO дописать
+        mDbHelper.getCoastListByDate(null);
+        Toast.makeText(this, "onClickViewLunch", Toast.LENGTH_SHORT).show();
+    }
+
+    /**Обработчик выбора пункта меню "Просмотреть поездки"*/
+    public void onClickViewDrive(MenuItem menuItem) {
+        //TODO дописать
+        mDbHelper.getDriveListByDate(null);
+        Toast.makeText(this, "onClickViewDrive", Toast.LENGTH_SHORT).show();
+    }
+
+    /**Обработчик выбора пункта меню "Просмотреть эл. покупок"*/
+    public void onClickViewCoast(MenuItem menuItem) {
+        //TODO дописать
+        mDbHelper.getCoastItemsAll();
+        Toast.makeText(this, "onClickViewCoast", Toast.LENGTH_SHORT).show();
+    }
+
 }
 
