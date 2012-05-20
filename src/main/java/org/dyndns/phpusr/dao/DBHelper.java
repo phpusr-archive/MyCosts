@@ -213,10 +213,11 @@ public class DBHelper extends SQLiteOpenHelper {
         String selection = null;
         String[] selectionArgs = null;
         if (date != null) {
+            String text = "strftime('%Y-%m%1', coastDate) = strftime('%Y-%m%1', ?)";
             if (month) {
-                selection = "strftime('%Y-%m', coastDate) = strftime('%Y-%m', ?)";
+                selection = text.replaceAll("%1", "");
             } else {
-                selection = "strftime('%Y-%m-%d', coastDate) = strftime('%Y-%m-%d', ?)";
+                selection = text.replaceAll("%1", "-%d");
             }
             selectionArgs = new String[] { sdf.format(date) };
         }
