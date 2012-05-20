@@ -249,7 +249,6 @@ public class DBHelper extends SQLiteOpenHelper {
      * Возвращает список всех совершенных покупок за ...
      * @return Список покупок за ...
      */
-    //TODO дописать, обратить внимание на сортировку
     public List<Lunch> getLunchListByDate(Date date, boolean month) {
         Log.d(DBConstants.DEBUG_TAG, "getLunchListByDate called");
         return getLunchList(null, date, month);
@@ -264,12 +263,29 @@ public class DBHelper extends SQLiteOpenHelper {
         return getLunchList(LIMIT, null, null);
     }
 
-    private List<Drive> getDriveList(String limit) {
+    private List<Drive> getDriveList(String limit, Date date, Boolean month) {
+        Log.d(DBConstants.DEBUG_TAG, "getDriveList called");
+        Log.d(DBConstants.DEBUG_TAG, "limit=" + limit);
+        Log.d(DBConstants.DEBUG_TAG, "date=" + date);
+        Log.d(DBConstants.DEBUG_TAG, "month=" + month);
+
         List<Drive> list = new ArrayList<Drive>();
         SQLiteDatabase db = getWritableDatabase();
+
+        String selection = "coastId = " + TABLE_COAST_ITEMS + ".id";
+        String[] selectionArgs = null;
+        if (date != null) {
+            String text = " AND strftime('%Y-%m%1', driveDate) = strftime('%Y-%m%1', ?)";
+            if (month) {
+                selection += text.replaceAll("%1","");
+            } else {
+                selection += text.replaceAll("%1","-%d");
+            }
+            selectionArgs = new String[] { sdf.format(date) };
+        }
         Cursor cursor = db.query(TABLE_DRIVE_LIST + ", " + TABLE_COAST_ITEMS,
                 new String[] { TABLE_DRIVE_LIST + ".id", "driveDate", TABLE_COAST_ITEMS + ".id", "coastName", "coastPrice" },
-                "coastId = " + TABLE_COAST_ITEMS + ".id", null, null, null, "driveDate DESC", limit);
+                selection, selectionArgs, null, null, "driveDate DESC", limit);
         if (cursor.moveToFirst()) {
             do {
                 final Drive drive;
@@ -295,16 +311,16 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public List<Drive> getDriveListLast() {
         Log.d(DBConstants.DEBUG_TAG, "getDriveListLast called");
-        return getDriveList(LIMIT);
+        return getDriveList(LIMIT, null, null);
     }
 
     /**
      * Возвращает список последних поездок за ...
      * @return Список последних поездок за ...
      */
-    public List<Drive> getDriveListByDate(Date date) {
+    public List<Drive> getDriveListByDate(Date date, boolean month) {
         Log.d(DBConstants.DEBUG_TAG, "getDriveListByDate called");
-        return getDriveList(null);
+        return getDriveList(null, date, month);
     }
 
     private List<Coast> getCoastItems(int coastType) {

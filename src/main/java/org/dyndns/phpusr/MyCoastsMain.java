@@ -162,8 +162,6 @@ public class MyCoastsMain extends Activity {
     /**Обработчик выбора пункта меню "Просмотреть поездки"*/
     public void onClickViewDrive(MenuItem menuItem) {
         DateDialog.callMe(this, DateDialogType.DRIVE_LIST);
-
-        mDbHelper.getDriveListByDate(null);
     }
 
     /**Обработчик выбора пункта меню "Просмотреть эл. покупок"*/

@@ -71,8 +71,10 @@ public class ListReport extends Activity {
             listReport.setAdapter(adapter);
         } else {
             if (dialogType == DateDialogType.DRIVE_LIST) {
-                final List<Drive> driveList = mDbHelper.getDriveListByDate(date);
-                ArrayAdapter<Drive> adapter = new DriveAdapter( this, R.layout.lunch, driveList );
+                lblLunchFor.setText(getApplicationContext().getResources().getString(R.string.driveFor) + " (" + sdf.format(date) + ")");
+
+                final List<Drive> driveList = mDbHelper.getDriveListByDate(date, month);
+                ArrayAdapter<Drive> adapter = new DriveAdapter( this, R.layout.drive, driveList );
                 listReport.setAdapter(adapter);
             }
         }
@@ -124,19 +126,15 @@ public class ListReport extends Activity {
             View v = convertView;
             if ( v == null ) {
                 LayoutInflater vi = ( LayoutInflater ) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-                v = vi.inflate( R.layout.lunch, null );
+                v = vi.inflate( R.layout.drive, null );
             }
 
             Drive drive = getItem( position );
-            /* //TODO
-            fillText(v, R.id.lunchDate, sdf.format(drive.getDate()));
-            fillText(v, R.id.lunchSum, Double.toString(drive.getSum()));
-            fillText(v, R.id.lunchDrink, drive.getDrink().getName());
-            fillText(v, R.id.lunchGarnish, drive.getGarnish().getName());
-            fillText(v, R.id.lunchMeat, drive.getMeat().getName());
-            fillText(v, R.id.lunchSalad, drive.getSalad().getName());
-            fillText(v, R.id.lunchFlour, drive.getFlour().getName());
-            */
+
+            fillText(v, R.id.driveDate, sdf.format(drive.getDate()));
+            fillText(v, R.id.driveName, drive.getDriveWay().getName());
+            fillText(v, R.id.drivePrice, Double.toString(drive.getDriveWay().getPrice()));
+
             return v;
         }
 

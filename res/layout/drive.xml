@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/linerLayoutVertDef"
+              >
+    <LinearLayout
+            style="@style/linerLayoutHorDef"
+        >
+        <TextView
+                android:id="@+id/driveDate"
+                style="@style/lbl"
+                android:text="20.05.2012"
+                android:width="150dp"
+            />
+        <TextView
+                android:id="@+id/driveName"
+                style="@style/lbl"
+                android:text="57"
+                android:width="100dp"
+                />
+        <TextView
+                android:id="@+id/drivePrice"
+                style="@style/lbl"
+                android:text="12"
+                android:width="100dp"
+                />
+    </LinearLayout>
+</LinearLayout>
