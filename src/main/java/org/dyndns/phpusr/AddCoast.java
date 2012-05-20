@@ -15,6 +15,7 @@ import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
 import org.dyndns.phpusr.domains.Lunch;
 import org.dyndns.phpusr.enums.CoastType;
+import org.dyndns.phpusr.enums.DateDialogType;
 import org.dyndns.phpusr.store.Store;
 
 import java.util.List;
@@ -65,8 +66,7 @@ public class AddCoast extends Activity {
         coastDateLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), DateDialog.class);
-                startActivity(intent);
+                DateDialog.callMe(AddCoast.this, DateDialogType.ADD_COAST);
             }
         });
 

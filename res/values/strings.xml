@@ -40,6 +40,15 @@
     <string name="exit">Выход</string>
     <!---->
 
+    <!--Date Dialog-->
+    <string name="lastMonth">За месяц</string>
+    <string name="lastDay">За день</string>
+    <!---->
+
+    <!--List Report-->
+    <string name="lunchFor">Обеды за</string>
+    <!---->
+
     <!--Проичие константы-->
     <string name="currencyPostfix">руб</string>
     <!---->

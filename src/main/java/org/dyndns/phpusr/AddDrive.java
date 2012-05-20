@@ -14,6 +14,7 @@ import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Coast;
 import org.dyndns.phpusr.domains.Drive;
 import org.dyndns.phpusr.enums.CoastType;
+import org.dyndns.phpusr.enums.DateDialogType;
 import org.dyndns.phpusr.store.Store;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class AddDrive extends Activity {
         driveDateLbl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateDialog.callMe(AddDrive.this);
+                DateDialog.callMe(AddDrive.this, DateDialogType.ADD_COAST);
             }
         });
 

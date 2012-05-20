@@ -38,13 +38,13 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String LIMIT = "5";
 
     /** Список покупок */
-    private final String TABLE_COAST_LIST = "coastList";
+    private final String TABLE_LUNCH_LIST = "coastList";
     /** Наименования продуктов */
     private final String TABLE_COAST_ITEMS = "coastItems";
     /** Список поездок */
     private final String TABLE_DRIVE_LIST = "driveList";
 
-    private final String CREATE_TABLE_COAST_LIST = "CREATE TABLE "+ TABLE_COAST_LIST +"( " +
+    private final String CREATE_TABLE_LUNCH_LIST = "CREATE TABLE "+ TABLE_LUNCH_LIST +"( " +
             "id INTEGER PRIMARY KEY"+
             ", drinkId INTEGER " +
             ", garnishId INTEGER " +
@@ -65,11 +65,11 @@ public class DBHelper extends SQLiteOpenHelper {
             ", coastId INTEGER " +
             ", driveDate DATE " +
             ")";
-    private final String DROP_TABLE_COAST_LIST = "DROP TABLE IF EXISTS "+ TABLE_COAST_LIST;
+    private final String DROP_TABLE_COAST_LIST = "DROP TABLE IF EXISTS "+ TABLE_LUNCH_LIST;
     private final String DROP_TABLE_COAST_ITEMS = "DROP TABLE IF EXISTS "+ TABLE_COAST_ITEMS;
     private final String DROP_TABLE_DRIVE_LIST = "DROP TABLE IF EXISTS "+ TABLE_DRIVE_LIST;
 
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final SimpleDateFormat sdf = new SimpleDateFormat(DBConstants.DB_DATE_FORMAT);
 
     private final Context mContext;
 
@@ -82,7 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(DBConstants.DEBUG_TAG, "onCreate() called");
-        db.execSQL(CREATE_TABLE_COAST_LIST);
+        db.execSQL(CREATE_TABLE_LUNCH_LIST);
         db.execSQL(CREATE_TABLE_COAST_ITEMS);
         db.execSQL(CREATE_TABLE_DRIVE_LIST);
         fillData(db);
@@ -167,7 +167,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("meatId", lunch.getMeat().getId());
         values.put("saladId", lunch.getSalad().getId());
         values.put("flourId", lunch.getFlour().getId());
-        db.insert(TABLE_COAST_LIST, null, values);
+        db.insert(TABLE_LUNCH_LIST, null, values);
     }
 
     /**
@@ -201,16 +201,37 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_COAST_ITEMS, null, values);
     }
 
-    private List<Lunch> getCoastList(String limit) {
+    private List<Lunch> getLunchList(String limit, Date date, Boolean month) {
+        Log.d(DBConstants.DEBUG_TAG, "getLunchList called");
+        Log.d(DBConstants.DEBUG_TAG, "limit=" + limit);
+        Log.d(DBConstants.DEBUG_TAG, "date=" + date);
+        Log.d(DBConstants.DEBUG_TAG, "month=" + month);
+
         List<Lunch> list = new ArrayList<Lunch>();
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.query(TABLE_COAST_LIST, new String[] { "id", "coastSum", "coastDate" },
-                null, null, null, null, "coastDate DESC", limit);
+
+        String selection = null;
+        String[] selectionArgs = null;
+        if (date != null) {
+            if (month) {
+                selection = "strftime('%Y-%m', coastDate) = strftime('%Y-%m', ?)";
+            } else {
+                selection = "strftime('%Y-%m-%d', coastDate) = strftime('%Y-%m-%d', ?)";
+            }
+            selectionArgs = new String[] { sdf.format(date) };
+        }
+        Cursor cursor = db.query(TABLE_LUNCH_LIST, new String[] { "id", "coastSum", "coastDate", "drinkId", "garnishId", "meatId", "saladId", "flourId" },
+                selection, selectionArgs, null, null, "coastDate DESC", limit);
         if (cursor.moveToFirst()) {
             do {
                 final Lunch lunch;
                 try {
                     lunch = new Lunch(cursor.getInt(0), cursor.getDouble(1), sdf.parse(cursor.getString(2)));
+                    lunch.setDrink(getCoastById(cursor.getInt(3)));
+                    lunch.setGarnish(getCoastById(cursor.getInt(4)));
+                    lunch.setMeat(getCoastById(cursor.getInt(5)));
+                    lunch.setSalad(getCoastById(cursor.getInt(6)));
+                    lunch.setFlour(getCoastById(cursor.getInt(7)));
                     list.add(lunch);
                     Log.d(DBConstants.DEBUG_TAG, "lunch=" + lunch);
                 } catch (ParseException e) {
@@ -229,18 +250,18 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return Список покупок за ...
      */
     //TODO дописать, обратить внимание на сортировку
-    public List<Lunch> getCoastListByDate(Date date) {
-        Log.d(DBConstants.DEBUG_TAG, "getCoastListByDate called");
-        return getCoastList(null);
+    public List<Lunch> getLunchListByDate(Date date, boolean month) {
+        Log.d(DBConstants.DEBUG_TAG, "getLunchListByDate called");
+        return getLunchList(null, date, month);
     }
 
     /**
      * Возвращает LIMIT последних покупок
      * @return Список последних покупок
      */
-    public List<Lunch> getCoastListLast() {
-        Log.d(DBConstants.DEBUG_TAG, "getCoastListLast called");
-        return getCoastList(LIMIT);
+    public List<Lunch> getLunchListLast() {
+        Log.d(DBConstants.DEBUG_TAG, "getLunchListLast called");
+        return getLunchList(LIMIT, null, null);
     }
 
     private List<Drive> getDriveList(String limit) {
@@ -281,7 +302,6 @@ public class DBHelper extends SQLiteOpenHelper {
      * Возвращает список последних поездок за ...
      * @return Список последних поездок за ...
      */
-    //TODO дописать, обратить внимание на сортировку
     public List<Drive> getDriveListByDate(Date date) {
         Log.d(DBConstants.DEBUG_TAG, "getDriveListByDate called");
         return getDriveList(null);
@@ -327,12 +347,34 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Возвращает элемент покупки по id
+     * @param coastId id элемента покупки
+     * @return элемент покупки
+     */
+    private Coast getCoastById(int coastId) {
+        Log.d(DBConstants.DEBUG_TAG, "getCoastById called");
+
+        Coast coast = null;
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TABLE_COAST_ITEMS, new String[] { "id", "coastName", "coastPrice", "coastType" },
+                "id = ?", new String[]{ Integer.toString(coastId) }, null, null, "id", null);
+        if (cursor.moveToFirst()) {
+            coast = new Coast(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), CoastType.getCoastTypeById(cursor.getInt(3)));
+            Log.d(DBConstants.DEBUG_TAG, "coast=" + coast);
+        }
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return coast;
+    }
+
+    /**
      * Возвращает сумму покупок за последний месяц
      * @return
      */
     public double getCoastSumLastMonth() {
         SQLiteDatabase db = getWritableDatabase();
-        final Cursor cursor = db.query(TABLE_COAST_LIST, new String[]{"SUM(coastSum)"}, "strftime('%Y-%m', coastDate) = strftime('%Y-%m', 'now')", null, null, null, null);
+        final Cursor cursor = db.query(TABLE_LUNCH_LIST, new String[]{"SUM(coastSum)"}, "strftime('%Y-%m', coastDate) = strftime('%Y-%m', 'now')", null, null, null, null);
 
         double sum = 0;
         if (cursor.moveToFirst()) {
@@ -369,7 +411,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<String> getDates() {
         List<String> list = new ArrayList<String>();
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.query(TABLE_COAST_LIST, new String[] { "strftime('%Y-%m', coastDate)" },
+        Cursor cursor = db.query(TABLE_LUNCH_LIST, new String[] { "strftime('%Y-%m', coastDate)" },
                 null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {

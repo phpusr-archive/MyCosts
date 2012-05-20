@@ -10,18 +10,44 @@
             />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/pnlOkCancel"
                   style="@style/layoutBtn"
             >
         <Button
-                android:id="@+id/cancel"
                 android:text="@string/cancel"
                 style="@style/twoBtn"
+                android:onClick="onClickCancelDateDialog"
                 />
         <Button
                 android:id="@+id/ok"
                 android:text="@string/ok"
                 style="@style/twoBtn"
                 />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/linerLayoutWraper"
+        android:id="@+id/pnlReport"
+        >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      style="@style/layoutBtn"
+                >
+            <Button
+                    android:text="@string/lastMonth"
+                    style="@style/twoBtn"
+                    android:onClick="onClickLastMonth"
+                    />
+            <Button
+                    android:text="@string/lastDay"
+                    style="@style/twoBtn"
+                    android:onClick="onClickLastDay"
+                    />
+        </LinearLayout>
+        <Button
+            android:text="@string/cancel"
+            style="@style/oneBtn"
+            android:onClick="onClickCancelDateDialog"
+            />
     </LinearLayout>
 
 </LinearLayout>

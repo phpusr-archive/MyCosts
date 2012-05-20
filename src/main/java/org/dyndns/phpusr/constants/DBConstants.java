@@ -7,4 +7,5 @@ package org.dyndns.phpusr.constants;
  */
 public class DBConstants {
     public static final String DEBUG_TAG = "::Debug:: ";
+    public static final String DB_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 }

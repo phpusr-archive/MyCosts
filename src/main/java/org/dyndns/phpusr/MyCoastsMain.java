@@ -14,6 +14,7 @@ import org.dyndns.phpusr.constants.Constants;
 import org.dyndns.phpusr.dao.DBHelper;
 import org.dyndns.phpusr.domains.Drive;
 import org.dyndns.phpusr.domains.Lunch;
+import org.dyndns.phpusr.enums.DateDialogType;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class MyCoastsMain extends Activity {
     }
     
     private void fillList() {
-        List<Lunch> lunchList = mDbHelper.getCoastListLast();
+        List<Lunch> lunchList = mDbHelper.getLunchListLast();
         List<Drive> driveList = mDbHelper.getDriveListLast();
 
         String groupFrom[] = new String[] {Constants.GROUP};
@@ -155,16 +156,14 @@ public class MyCoastsMain extends Activity {
 
     /**Обработчик выбора пункта меню "Просмотреть обеды"*/
     public void onClickViewLunch(MenuItem menuItem) {
-        //TODO дописать
-        mDbHelper.getCoastListByDate(null);
-        Toast.makeText(this, "onClickViewLunch", Toast.LENGTH_SHORT).show();
+        DateDialog.callMe(this, DateDialogType.LUNCH_LIST);
     }
 
     /**Обработчик выбора пункта меню "Просмотреть поездки"*/
     public void onClickViewDrive(MenuItem menuItem) {
-        //TODO дописать
+        DateDialog.callMe(this, DateDialogType.DRIVE_LIST);
+
         mDbHelper.getDriveListByDate(null);
-        Toast.makeText(this, "onClickViewDrive", Toast.LENGTH_SHORT).show();
     }
 
     /**Обработчик выбора пункта меню "Просмотреть эл. покупок"*/

@@ -13,6 +13,11 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="linerLayoutWraper" parent="linerLayoutVertDef">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="linerLayoutHorDef">
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_width">fill_parent</item>
@@ -52,12 +57,13 @@
         <item name="android:layout_marginBottom">5dp</item>
     </style>
 
-    <!--TextView-->
+    <!--ListView-->
     <style name="listViewDef">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <!--TextView-->
     <style name="textViewDef">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -85,13 +91,13 @@
 
     <style name="dscr" parent="textViewDef">
         <item name="android:layout_marginLeft">5px</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="dscrTitle" parent="dscr">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/title</item>
-        <item name="android:layout_marginLeft">5px</item>
+        <item name="android:layout_marginLeft">5dp</item>
     </style>
 
     <style name="title" parent="textViewDef">
@@ -100,6 +106,11 @@
         <item name="android:textColor">@color/title</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="smallTxt" parent="textViewDef">
+        <item name="android:textSize">9sp</item>
+        <item name="android:layout_marginLeft">5dp</item>
     </style>
 
     <!--EditView-->
